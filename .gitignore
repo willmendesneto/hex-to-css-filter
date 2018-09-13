@@ -1,0 +1,8 @@
+.nyc_output/
+node_modules/
+coverage/
+reporter/
+.DS_Store
+*.swp
+*.swo
+*.log
