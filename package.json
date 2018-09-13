@@ -1,6 +1,6 @@
 {
   "name": "hex-to-css-filter",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "hex-to-css-filter - Easy way to generate colors from HEX to CSS Filters",
   "main": "index.js",
   "scripts": {

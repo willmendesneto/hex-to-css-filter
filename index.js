@@ -184,7 +184,7 @@ class Solver {
         break;
       }
     }
-    return { ...best, repeatToSolve: counter };
+    return Object.assign({}, best, { repeatToSolve: counter });
   }
 
   solveNarrow(wide) {

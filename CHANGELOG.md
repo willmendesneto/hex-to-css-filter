@@ -9,5 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - First version of the package
 
+### Updated
+- Using `Object.assign()` to return the best match object
+
 ### Fixed
 - Fixing editorconfig code style
