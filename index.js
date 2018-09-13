@@ -162,6 +162,7 @@ class Solver {
       repeatToSolve: result.repeatToSolve,
       loss: result.loss,
       filter: this.css(result.values),
+      rgb: this.target.toString(),
     };
   }
 
@@ -184,6 +185,7 @@ class Solver {
         break;
       }
     }
+
     return Object.assign({}, best, { repeatToSolve: counter });
   }
 
@@ -204,6 +206,28 @@ class Solver {
     const deltas = new Array(6);
     const highArgs = new Array(6);
     const lowArgs = new Array(6);
+
+    function fix(value, idx) {
+      let max = 100;
+      if (idx === 2 /* saturate */) {
+        max = 7500;
+      } else if (idx === 4 /* brightness */ || idx === 5 /* contrast */) {
+        max = 200;
+      }
+
+      if (idx === 3 /* hue-rotate */) {
+        if (value > max) {
+          value %= max;
+        } else if (value < 0) {
+          value = max + value % max;
+        }
+      } else if (value < 0) {
+        value = 0;
+      } else if (value > max) {
+        value = max;
+      }
+      return value;
+    }
 
     for (let k = 0; k < iters; k++) {
       const ck = c / Math.pow(k + 1, gamma);
@@ -227,34 +251,12 @@ class Solver {
       }
     }
     return { values: best, loss: bestLoss, repeatToSolve };
-
-    function fix(value, idx) {
-      let max = 100;
-      if (idx === 2 /* saturate */) {
-        max = 7500;
-      } else if (idx === 4 /* brightness */ || idx === 5 /* contrast */) {
-        max = 200;
-      }
-
-      if (idx === 3 /* hue-rotate */) {
-        if (value > max) {
-          value %= max;
-        } else if (value < 0) {
-          value = max + value % max;
-        }
-      } else if (value < 0) {
-        value = 0;
-      } else if (value > max) {
-        value = max;
-      }
-      return value;
-    }
   }
 
   loss(filters) {
     // Argument as an Array of percentages.
     const color = this.reusedColor;
-    color.set(0, 0, 0);
+    color.set(255, 255, 255);
 
     color.invert(filters[0] / 100);
     color.sepia(filters[1] / 100);
@@ -308,10 +310,16 @@ function hexToRgb(hex) {
 
 const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
-const hexToCSSFilter = (colorValue, opts) => {
+let results = {};
+
+const hexToCSSFilter = (colorValue, opts = {}) => {
     let red;
     let green;
     let blue;
+
+    if (results[colorValue]) {
+      return results[colorValue];
+    }
 
     try {
       [red, green, blue] = hexToRgb(colorValue);
@@ -326,7 +334,7 @@ const hexToCSSFilter = (colorValue, opts) => {
     const color = new Color(red, green, blue);
     const defaultOptions = {
       acceptanceLossPercentage: 5,
-      maxChecks: 10,
+      maxChecks: 15,
     };
 
     const options = Object.assign(
@@ -336,7 +344,13 @@ const hexToCSSFilter = (colorValue, opts) => {
     );
 
     const solver = new Solver(color, options);
-    return solver.solve();
+    results[colorValue] = Object.assign(
+      {},
+      solver.solve(),
+      { hex: colorValue },
+    );
+
+    return results[colorValue];
 }
 
 

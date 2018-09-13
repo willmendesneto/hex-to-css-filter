@@ -19,6 +19,20 @@ describe('hexToCSSFilter', () => {
     );
   });
 
+  it('loss should NOT check more than the default maximum value to check', () => {
+    assert.equal(
+      hexToCSSFilter('#FF0000' ).rgb,
+      'rgb(255, 0, 0)'
+    );
+  });
+
+  it('loss should NOT check more than the default maximum value to check', () => {
+    assert.equal(
+      hexToCSSFilter('#FF0000' ).hex,
+      '#FF0000'
+    );
+  });
+
   it('should throw an error if it receives an invalid color', () => {
     assert.throws(
       () => hexToCSSFilter('invalid'),
@@ -29,7 +43,7 @@ describe('hexToCSSFilter', () => {
   it('should return an object with the given values', () => {
     assert.deepEqual(
       Object.keys(hexToCSSFilter('#00a4d6')).sort(),
-      [ 'filter', 'loss', 'repeatToSolve', 'values']
+      [ 'filter', 'hex', 'loss', 'repeatToSolve', 'rgb', 'values']
     );
   });
 
