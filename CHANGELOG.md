@@ -8,3 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - First version of the package
+
+### Fixed
+- Fixing editorconfig code style

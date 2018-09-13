@@ -278,7 +278,14 @@ class Solver {
     function fmt(idx, multiplier = 1) {
       return Math.round(filters[idx] * multiplier);
     }
-    return `filter: invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
+    return [
+      `invert(${fmt(0)}%)`,
+      `sepia(${fmt(1)}%)`,
+      `saturate(${fmt(2)}%)`,
+      `hue-rotate(${fmt(3, 3.6)}deg)`,
+      `brightness(${fmt(4)}%)`,
+      `contrast(${fmt(5)}%);`
+    ].join(' ');
   }
 }
 
