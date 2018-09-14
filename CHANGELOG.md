@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+### Updated
+- Returning RGB as an array with red, green and blue values
 
 ## [1.0.1][] - 2018-09-13
 

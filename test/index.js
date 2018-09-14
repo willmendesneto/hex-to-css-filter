@@ -4,7 +4,6 @@ const hexToCSSFilter = require('./../index');
 
 describe('hexToCSSFilter', () => {
 
-
   it('loss should NOT be more than the default acceptance loss percentage', () => {
     assert.equal(
       hexToCSSFilter('#00a4d6').loss <= 10,
@@ -14,21 +13,21 @@ describe('hexToCSSFilter', () => {
 
   it('loss should NOT check more than the default maximum value to check', () => {
     assert.equal(
-      hexToCSSFilter('#00a4d6' ).repeatToSolve <= 10,
+      hexToCSSFilter('#00a4d6').called <= 10,
       true
     );
   });
 
-  it('loss should NOT check more than the default maximum value to check', () => {
-    assert.equal(
-      hexToCSSFilter('#FF0000' ).rgb,
-      'rgb(255, 0, 0)'
+  it('should return RGB colors as list of values', () => {
+    assert.deepEqual(
+      hexToCSSFilter('#FF0000').rgb,
+      [ 255, 0, 0],
     );
   });
 
   it('loss should NOT check more than the default maximum value to check', () => {
     assert.equal(
-      hexToCSSFilter('#FF0000' ).hex,
+      hexToCSSFilter('#FF0000').hex,
       '#FF0000'
     );
   });
@@ -43,7 +42,7 @@ describe('hexToCSSFilter', () => {
   it('should return an object with the given values', () => {
     assert.deepEqual(
       Object.keys(hexToCSSFilter('#00a4d6')).sort(),
-      [ 'filter', 'hex', 'loss', 'repeatToSolve', 'rgb', 'values']
+      ['called', 'filter', 'hex', 'loss', 'rgb', 'values']
     );
   });
 
@@ -68,7 +67,7 @@ describe('hexToCSSFilter', () => {
 
     it('loss should NOT check more than the given maximum value to check', () => {
       assert.equal(
-        hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1, maxChecks: 5 }).repeatToSolve <= 5,
+        hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1, maxChecks: 5 }).called <= 5,
         true
       );
     });

@@ -159,10 +159,9 @@ class Solver {
     const result = this.solveNarrow(this.solveWide());
     return {
       values: result.values,
-      repeatToSolve: result.repeatToSolve,
+      called: result.called,
       loss: result.loss,
       filter: this.css(result.values),
-      rgb: this.target.toString(),
     };
   }
 
@@ -186,7 +185,7 @@ class Solver {
       }
     }
 
-    return Object.assign({}, best, { repeatToSolve: counter });
+    return Object.assign({}, best, { called: counter });
   }
 
   solveNarrow(wide) {
@@ -194,10 +193,10 @@ class Solver {
     const c = 2;
     const A1 = A + 1;
     const a = [0.25 * A1, 0.25 * A1, A1, 0.25 * A1, 0.2 * A1, 0.2 * A1];
-    return this.spsa(A, a, c, wide.values, 500, wide.repeatToSolve);
+    return this.spsa(A, a, c, wide.values, 500, wide.called);
   }
 
-  spsa(A, a, c, values, iters, repeatToSolve) {
+  spsa(A, a, c, values, iters, called) {
     const alpha = 1;
     const gamma = 0.16666666666666666;
 
@@ -250,7 +249,7 @@ class Solver {
         bestLoss = loss;
       }
     }
-    return { values: best, loss: bestLoss, repeatToSolve };
+    return { values: best, loss: bestLoss, called };
   }
 
   loss(filters) {
@@ -347,7 +346,7 @@ const hexToCSSFilter = (colorValue, opts = {}) => {
     results[colorValue] = Object.assign(
       {},
       solver.solve(),
-      { hex: colorValue },
+      { hex: colorValue, rgb: [red, green, blue] },
     );
 
     return results[colorValue];

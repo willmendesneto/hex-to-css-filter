@@ -39,41 +39,15 @@ const cssFilter = hexToCSSFilter('#00a4d6', {
 console.log(cssFilter);
 ```
 
+It returns an object with the values: 
 
-## Setup
+- 'called': how many times the script was called to solve the color;
+- 'filter': CSS filter generated based on the HEX color;
+- 'hex': the received color;
+- 'loss': percentage loss value for the generated filter;
+- 'rgb': HEX color in RGB;
+- 'values': percentage loss per each color type organized in RGB: red, green, blue, h, s, l. Used for debug purposes;
 
-### Private repositories
-
-In order to use hex-to-css-filter in private repositories you'll need to
-[create a personal access token](https://github.com/settings/tokens)
-which has permissions to read private repositories:
-
-![Token permissions](./assets/token.png)
-
-Then, you can pass the github token information in the options object, using the `token` key.
-
-
-```js
-const nodeGithubDiff = require('hex-to-css-filter');
-...
-nodeGithubDiff({
-  repository: 'willmendesneto/generator-update-yeoman-test',
-  base: 'v0.0.3',
-  head: 'v0.0.5',
-  token: 'your-github-token',
-});
-...
-```
-
-### Run hex-to-css-filter
-
-Make sure you have `npm@>=5.2.0`:
-
-```
-npm install -g npm@latest
-```
-
-This package is using `async/await` feature, so please make sure you are using `node@>=v7.6.0` which supports this feature by default based on [Node.green website](https://node.green/). In case you can't please make sure you're running the code with `--harmony-async-await` flag or using solving in your code.
 
 ### Options
 
