@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+
+## [1.0.2][] - 2018-09-14
 ### Updated
 - Returning RGB as an array with red, green and blue values
 
@@ -22,5 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fixing editorconfig code style
 
 
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v1.0.1
