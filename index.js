@@ -3,10 +3,6 @@ class Color {
     this.set(r, g, b);
   }
 
-  toString() {
-    return `rgb(${Math.round(this.r)}, ${Math.round(this.g)}, ${Math.round(this.b)})`;
-  }
-
   set(r, g, b) {
     this.r = this.clamp(r);
     this.g = this.clamp(g);
@@ -85,6 +81,7 @@ class Color {
   brightness(value = 1) {
     this.linear(value);
   }
+
   contrast(value = 1) {
     this.linear(value, -(0.5 * value) + 0.5);
   }
@@ -202,6 +199,7 @@ class Solver {
 
     let best = null;
     let bestLoss = Infinity;
+
     const deltas = new Array(6);
     const highArgs = new Array(6);
     const lowArgs = new Array(6);
@@ -296,15 +294,12 @@ function hexToRgb(hex) {
   hex = hex.replace(expandShorthandHexToFullForm, (m, r, g, b) => r + r + g + g + b + b);
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (!result) {
-    return null;
-  }
 
-  return [
+  return result ? [
     parseInt(result[1], 16),
     parseInt(result[2], 16),
     parseInt(result[3], 16),
-  ];
+  ] : null;
 }
 
 const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
@@ -351,6 +346,5 @@ const hexToCSSFilter = (colorValue, opts = {}) => {
 
     return results[colorValue];
 }
-
 
 module.exports = hexToCSSFilter;

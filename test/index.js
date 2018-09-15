@@ -1,5 +1,4 @@
 const assert = require('assert');
-const fs = require('fs');
 const hexToCSSFilter = require('./../index');
 
 describe('hexToCSSFilter', () => {
