@@ -9,7 +9,7 @@ declare module 'hex-to-css-filter' {
      * Maximum checks that needs to be done to return the best value.
      * @default 10
      */
-    maxChecks: number;
+    maxChecks?: number;
   }
 
   export interface ReturnValue {
