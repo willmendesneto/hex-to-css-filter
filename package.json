@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "hex-to-css-filter - Easy way to generate colors from HEX to CSS Filters",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "editorconfig-tools-check": "editorconfig-tools check ./index.js ./test/**",
     "lint": "eslint .",
