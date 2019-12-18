@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.0.3][] - 2019-12-18
+
 ### Added
 
 - Adding typescript types for package
@@ -36,3 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.2...HEAD
 [1.0.2]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v1.0.1
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v1.0.3
