@@ -1,4 +1,0 @@
---reporter spec
---exit
---timeout=35000
---check-leaks
