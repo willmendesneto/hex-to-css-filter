@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Updated
+
+- Migrating package to Typescript
+
+BREAKING CHANGE:
+
+To improve readability, these type definitions were renamed
+
+- `Option` was renamed to `HexToCssConfiguration`;
+- `ReturnValue` was renamed to `HexToCssResult`;
+
 ## [1.0.3][] - 2019-12-18
 
 ### Added
@@ -38,7 +49,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.2...HEAD
 [1.0.2]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v1.0.1
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.3...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v1.0.3...HEAD
 [1.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v1.0.3

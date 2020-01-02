@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc",
+    "types": ["jest", "node"],
+    "module": "esnext",
+    "target": "es2015",
+    "sourceMap": true /* Generates corresponding '.map' file. */
+  },
+  "files": [],
+  "include": ["src/__tests__/**/**/*.ts", "src/**/**/*.d.ts"],
+  "exclude": ["node_modules"]
+}

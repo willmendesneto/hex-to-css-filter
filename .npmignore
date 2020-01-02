@@ -1,0 +1,23 @@
+/.*/
+/demo/
+.*
+bower.json
+karma.conf.js
+src
+coverage
+.nyc_output
+.jest
+**/__tests__/
+out-tsc
+images
+scripts
+jest*.js
+tsconfig.*.json
+tsconfig.json
+.coveralls.yml
+.banner
+package
+*.tgz
+
+# ignore OS generated files
+**/.DS_Store

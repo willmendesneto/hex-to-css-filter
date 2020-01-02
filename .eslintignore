@@ -1,0 +1,7 @@
+.github
+.jest
+coverage
+lib
+node_modules
+flow-typed
+.yarn
