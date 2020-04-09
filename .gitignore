@@ -13,3 +13,4 @@ out-tsc/
 !jest.*.js
 !scripts/*
 *.tgz
+!.eslintrc.js
