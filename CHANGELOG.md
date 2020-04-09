@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [2.0.1][] - 2020-04-09
+
 ### Updated
 
 - Bumped dependencies
@@ -68,3 +70,7 @@ To improve readability, these type definitions were renamed
 [1.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v1.0.3
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.0...HEAD
 [2.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.0
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.1
