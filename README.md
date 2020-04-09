@@ -91,189 +91,46 @@ $ yarn bundlesize # run the tests
 $ yarn lint # run the tests
 ```
 
-## `PerfMarks`
+## Usage
 
-This service exposes a few different methods with which you can interact with feature toggle service.
-
-### `PerfMarks.start(markName)`
-
-Adds the user timing api marker instrumentation in your application.
+### Using default options
 
 ```js
-import * as PerfMarks from 'hex-to-css-filter';
+import { hexToCSSFilter } from 'hex-to-css-filter';
 
-...
-PerfMarks.start('name-of-your-mark');
-...
+const cssFilter = hexToCSSFilter('#00a4d6');
+console.log(cssFilter);
 ```
 
-### `PerfMarks.end(markName)`
+### Overriding default options
 
-Returns the results for the specified marker.
-
-> `PerfMarks.end(markName)` calls `PerfMarks.clear(markName)` after return the mark values
+You can override the default options by passing a second parameter into `hexToCSSFilter` method. You can also use `HexToCssConfiguration` for type support on it.
 
 ```js
-import * as PerfMarks from 'hex-to-css-filter';
+import { hexToCSSFilter, HexToCssConfiguration } from 'hex-to-css-filter';
 
-...
-PerfMarks.start('name-of-your-mark');
-...
-const markResults: PerfMarks.PerfMarksPerformanceEntry = PerfMarks.end('name-of-your-mark');
+const config: HexToCssConfiguration = {
+  acceptanceLossPercentage: 1,
+  maxChecks: 10,
+};
+
+const cssFilter = hexToCSSFilter('#00a4d6', config);
+console.log(cssFilter);
 ```
 
-### `PerfMarks.clear(markName)`
+It returns an object with the values:
 
-Removes the specified marker
+- `called`: how many times the script was called to solve the color;
+- `filter`: CSS filter generated based on the HEX color;
+- `hex`: the received color;
+- `loss`: percentage loss value for the generated filter;
+- `rgb`: HEX color in RGB;
+- `values`: percentage loss per each color type organized in RGB: `red`, `green`, `blue`, `h`, `s`, `l`. Used for debug purposes - if needed;
 
-```js
-import * as PerfMarks from 'hex-to-css-filter';
+### Options
 
-...
-PerfMarks.start('name-of-your-mark');
-...
-PerfMarks.clear('name-of-your-mark');
-...
-```
-
-### `PerfMarks.clearAll()`
-
-Removes all the marker
-
-```js
-import * as PerfMarks from 'hex-to-css-filter';
-
-...
-PerfMarks.start('name-of-your-mark');
-PerfMarks.start('another-name-of-your-mark');
-...
-PerfMarks.clearAll();
-...
-```
-
-### `PerfMarks.getNavigationMarker()`
-
-Gets the marks for `navigation` loaded
-
-```js
-import * as PerfMarks from 'hex-to-css-filter';
-
-...
-const markResults: PerfMarksPerformanceNavigationTiming = PerfMarks.getNavigationMarker();
-...
-```
-
-### `PerfMarks.getEntriesByType(markName)`
-
-Gets the result for all marks that matches with the given mark name
-
-```js
-import * as PerfMarks from 'hex-to-css-filter';
-
-...
-PerfMarks.start('name-of-your-mark');
-PerfMarks.start('another-name-of-your-mark');
-...
-// It will return results for all the marks that matches with `name-of-your-mark`
-// In this case, `name-of-your-mark` and `another-name-of-your-mark`
-const markResult: PerfMarksPerformanceNavigationTiming[] = PerfMarks.getEntriesByType('name-of-your-mark');
-...
-```
-
-### `PerfMarks.isUserTimingAPISupported`
-
-Boolean with the result of the check if User Timing API is supported for the current browser/NodeJS version.
-
-> `PerfMarks` already have a fallback in case user timing is not supported. This boolean is exposed in case the app needs to check the case to use any other mechanism.
-
-```js
-import * as PerfMarks from 'hex-to-css-filter';
-
-...
-if (PerfMarks.isUserTimingAPISupported) {
-  // ... Do something
-}
-...
-```
-
-## Entrypoints
-
-These are entrypoints for specific components to be used carefully by the consumers. If you're using one of these entrypoints we are assuming you know what you are doing. So it means that code-splitting and tree-shaking should be done on the consumer/product side.
-
-By definition it will use CJS as the main distribution entrypoint used in the app. However, this can be changed in the consumer's bundle step. This is the built-in scenario if the consumer uses toolings such as `Webpack`, `Rollup`, or `Parcel`.
-
-### Exposed entrypoints
-
-- `hex-to-css-filter/marks`: it has all the methods for marks
-  - `start`
-  - `end`
-  - `clear`
-  - `clearAll`
-  - `isUserTimingAPISupported`
-- `hex-to-css-filter/entries`: it has all the methods to get entries
-  - `getNavigationMarker`
-  - `getEntriesByType`
-
-If you need optimize your bundle size even more, this package provides different bundles for `CommonJS`, `UMD`, `ESM` and `ES2015`. To make the dev experience smoothiest as possible, you can use `babel-plugin-transform-imports` in your app and configure the bundle that fits the most for your app!
-
-```bash
-yarn add -D babel-plugin-transform-imports
-# or
-npm install --save-dev babel-plugin-transform-imports
-```
-
-Create a `.babelrc.js` file in the root directory of your project:
-
-```js
-const plugins = [
-  [
-    'babel-plugin-transform-imports',
-    {
-      'hex-to-css-filter/hex-to-css-filter': {
-        // Use "transform: 'hex-to-css-filter/hex-to-css-filter/${member}'," if your bundler does not support ES modules
-        transform: 'hex-to-css-filter/dist/esm/${member}',
-        preventFullImport: true,
-      },
-      'hex-to-css-filter/entries': {
-        // Use "transform: 'hex-to-css-filter/entries/${member}'," if your bundler does not support ES modules
-        transform: 'hex-to-css-filter/entries/esm/${member}',
-        preventFullImport: true,
-      },
-    },
-  ],
-];
-
-module.exports = { plugins };
-```
-
-Or just use it via `babel-plugin-import`
-
-```bash
-yarn add -D babel-plugin-import
-# or
-npm install --save-dev babel-plugin-import
-```
-
-Create a `.babelrc.js` file in the root directory of your project:
-
-```js
-const plugins = [
-  [
-    'babel-plugin-import',
-    {
-      libraryName: 'hex-to-css-filter/entries',
-      // Use "'libraryDirectory': ''," if your bundler does not support ES modules
-      libraryDirectory: 'esm',
-      camel2DashComponentName: false,
-    },
-    'entries',
-  ],
-];
-
-module.exports = { plugins };
-```
-
-And enjoy! Yeah, it's simple like that 😉
+`acceptanceLossPercentage`: Acceptable color percentage to be lost. Default: `5`;
+`maxChecks`: Maximum checks that needs to be done to return the best value. Default: `10`;
 
 ## Publish
 
