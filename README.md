@@ -14,8 +14,7 @@
 [![NPM](https://nodei.co/npm-dl/hex-to-css-filter.png?height=3&months=3)](https://npmjs.org/hex-to-css-filter)
 
 
-
-The simplest and lightweight solution for [User Timing API](https://developer.mozilla.org/en-US/docs/Web/API/User_Timing_API) in Javascript. Simple how it should be.
+> Easy way to generate colors from HEX to CSS Filters 😎
 
 ## Contributing
 
