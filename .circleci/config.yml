@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 
 docker_defaults: &docker_defaults
   docker:
@@ -43,9 +43,6 @@ workflows:
       - bundle_size:
           requires:
             - build
-      # - end_to_end:
-      #     requires:
-      #         - build
 jobs:
   build:
     <<: *docker_defaults
