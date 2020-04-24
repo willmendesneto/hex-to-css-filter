@@ -93,11 +93,11 @@
     },
     {
       "path": "./dist/umd/hex-to-css-filter.js",
-      "maxSize": "3.15KB"
+      "maxSize": "3.27KB"
     },
     {
       "path": "./dist/umd/hex-to-css-filter.min.js",
-      "maxSize": "2.06KB"
+      "maxSize": "2.12KB"
     }
   ],
   "husky": {

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- Fixing bundle size
 - Setting the filter to white to take effect properly. Closes https://github.com/willmendesneto/hex-to-css-filter/issues/7
 
 Since `Solver` is forcing the stored instance of `color` to be white in rgb, the brightness should be white as well. That
