@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [2.0.3][] - 2020-04-24
+
 ### Fixed
 
 - Fixing bundle size
@@ -97,3 +99,7 @@ To improve readability, these type definitions were renamed
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.2...HEAD
 [2.0.2]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.1
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.3...HEAD
+[2.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.3
