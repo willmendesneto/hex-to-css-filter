@@ -160,6 +160,7 @@ export default class Solver {
     };
 
     return [
+      `brightness(0)`,
       `invert(${formatCssFilterValue(0)}%)`,
       `sepia(${formatCssFilterValue(1)}%)`,
       `saturate(${formatCssFilterValue(2)}%)`,
