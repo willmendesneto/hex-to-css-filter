@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Fixed
+
+- `Solver`: Changing default target color to be white or black, based on the
+  given color. It solves the issue when a color is darker and the returned CSS filter resolutions is incorrect.
+
+E.G. https://codepen.io/willmendesneto/pen/pOVGVe
+
+With the issue
+<img width="300" alt="Screen Shot 2020-04-24 at 3 30 48 pm" src="https://user-images.githubusercontent.com/1252570/80251321-cee4ed00-864b-11ea-9a19-3d9aa1b59341.png">
+
+Without the issue
+<img width="300" alt="Screen Shot 2020-04-24 at 3 31 42 pm" src="https://user-images.githubusercontent.com/1252570/80251331-d1474700-864b-11ea-81b4-9db409efce99.png">
+
 ## [2.0.3][] - 2020-04-24
 
 ### Fixed
@@ -99,7 +112,5 @@ To improve readability, these type definitions were renamed
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.2...HEAD
 [2.0.2]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.1
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.3...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.3...HEAD
 [2.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.3

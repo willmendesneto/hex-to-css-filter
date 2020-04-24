@@ -68,6 +68,7 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
     if (!isNumeric(red) || !isNumeric(green) || !isNumeric(blue)) {
       throw new Error(`hextToRgb returned an invalid value for '${colorValue}'`);
     }
+
     color = new Color(Number(red), Number(green), Number(blue));
   } catch (error) {
     throw new Error(`Color value should be in HEX format. ${error}`);

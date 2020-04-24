@@ -9,6 +9,12 @@ export default class Color {
     this.set(r, g, b);
   }
 
+  isLight() {
+    const brightness = (this.r * 299 + this.g * 587 + this.b * 114) / 1000;
+    // If it's not light, that means it's dark
+    return brightness > 128;
+  }
+
   set(r: number, g: number, b: number) {
     this.r = this.clamp(r);
     this.g = this.clamp(g);

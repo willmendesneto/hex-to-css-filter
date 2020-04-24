@@ -10,9 +10,12 @@ export default class Solver {
     acceptanceLossPercentage: 5,
     maxChecks: 15,
   };
+  isTargetColorLight: boolean;
+
   constructor(target: Color, options: { acceptanceLossPercentage?: number; maxChecks?: number } | null) {
     this.target = target;
     this.targetHSL = target.hsl();
+    this.isTargetColorLight = target.isLight();
     this.reusedColor = new Color(0, 0, 0);
     if (options) {
       this.options = Object.assign({}, this.options, options);
@@ -133,7 +136,16 @@ export default class Solver {
   loss(filters: number[]): number {
     // Argument as an Array of percentages.
     const color = this.reusedColor;
-    color.set(255, 255, 255);
+
+    // If the target color is light, we should force the reused color to be white
+    // otherwise, it will use black to generate the CSS filters.
+    // This will fix the issue when the color is dark and the CSS filter is
+    // not matching the original/expected color
+    if (this.isTargetColorLight) {
+      color.set(255, 255, 255);
+    } else {
+      color.set(0, 0, 0);
+    }
 
     color.invert(filters[0] / 100);
     color.sepia(filters[1] / 100);
