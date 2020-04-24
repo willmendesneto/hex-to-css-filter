@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [2.0.4][] - 2020-04-24
+
 ### Fixed
 
 - `Solver`: Changing default target color to be white or black, based on the
@@ -114,3 +116,7 @@ To improve readability, these type definitions were renamed
 [2.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.1
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.3...HEAD
 [2.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.3
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.4...HEAD
+[2.0.4]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.4
