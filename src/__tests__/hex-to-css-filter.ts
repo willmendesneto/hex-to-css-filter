@@ -13,7 +13,7 @@ describe('hexToCSSFilter', () => {
     expect(hexToCSSFilter('#FF0000').rgb).toEqual([255, 0, 0]);
   });
 
-  it('loss should NOT check more than the default maximum value to check', () => {
+  it('should return the same value as received in `hex` attribute', () => {
     expect(hexToCSSFilter('#FF0000').hex).toBe('#FF0000');
   });
 
