@@ -13,7 +13,6 @@
 [![NPM](https://nodei.co/npm/hex-to-css-filter.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/hex-to-css-filter)
 [![NPM](https://nodei.co/npm-dl/hex-to-css-filter.png?height=3&months=3)](https://npmjs.org/hex-to-css-filter)
 
-
 > Easy way to generate colors from HEX to CSS Filters 😎
 
 ## Contributing
@@ -92,6 +91,12 @@ $ yarn lint # run the tests
 
 ## Usage
 
+### Important!!!!
+
+_Please make sure the background of the element is `#000` for better performance and color similarity_.
+
+The reason for this is because all the calcs done by the library to generate a CSS Filter are based on the color `#000`
+
 ### Using default options
 
 ```js
@@ -115,6 +120,22 @@ const config: HexToCssConfiguration = {
 
 const cssFilter = hexToCSSFilter('#00a4d6', config);
 console.log(cssFilter);
+
+// Calling different colors to create CSS Filters
+[
+  hexToCSSFilter('#FFF'),
+  hexToCSSFilter('#000'),
+  hexToCSSFilter('#802e1c'),
+  hexToCSSFilter('#00a4d6'),
+  hexToCSSFilter('#FF0000'),
+  hexToCSSFilter('#173F5E'),
+  hexToCSSFilter('#24639C'),
+  hexToCSSFilter('#3CAEA4'),
+  hexToCSSFilter('#F6D55C'),
+  hexToCSSFilter('#ED553C'),
+].forEach(cssFilter => {
+  console.log(`\n${cssFilter.hex}-[${cssFilter.rgb}]: ${cssFilter.filter}`);
+});
 ```
 
 It returns an object with the values:

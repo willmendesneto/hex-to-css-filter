@@ -1,28 +1,45 @@
-/* eslint-disable */
-
 import Color from './color';
+import { HexToCssConfiguration } from './hex-to-css-filter';
 
 export default class Solver {
   target: Color;
   targetHSL: { h: number; s: number; l: number };
   reusedColor: Color;
-  options: { acceptanceLossPercentage: number; maxChecks: number } = {
-    acceptanceLossPercentage: 5,
-    maxChecks: 15,
-  };
-  isTargetColorLight: boolean;
+  options: { acceptanceLossPercentage: number; maxChecks: number } & HexToCssConfiguration;
 
-  constructor(target: Color, options: { acceptanceLossPercentage?: number; maxChecks?: number } | null) {
+  constructor(target: Color, options?: HexToCssConfiguration) {
     this.target = target;
     this.targetHSL = target.hsl();
-    this.isTargetColorLight = target.isLight();
+
+    this.options = Object.assign(
+      {},
+      // Adding default values for options
+      {
+        acceptanceLossPercentage: 5,
+        maxChecks: 15,
+      },
+      options || {},
+    );
+
+    // All the calcs done by the library to generate
+    // a CSS Filter are based on the color `#000`
+    // in this case, `rgb(0, 0, 0)`
+    // Please make sure the background of the element
+    // is `#000` for better performance
+    // and color similarity.
     this.reusedColor = new Color(0, 0, 0);
-    if (options) {
-      this.options = Object.assign({}, this.options, options);
-    }
   }
 
-  solve() {
+  solve(): {
+    /** How many times the script was called to solve the color */
+    called?: number;
+    /** CSS filter generated based on the Hex color */
+    filter: string;
+    /** Percentage loss value for the generated filter */
+    loss: number;
+    /** Percentage loss per each color type organized in RGB: red, green, blue, h, s, l. */
+    values: [number, number, number, number, number, number];
+  } {
     const result = this.solveNarrow(this.solveWide());
     return {
       values: result.values,
@@ -39,7 +56,7 @@ export default class Solver {
 
     let best = { loss: Infinity };
     let counter = 0;
-    while (best.loss > this.options.acceptanceLossPercentage) {
+    while (best.loss > this.options.acceptanceLossPercentage && counter < this.options.maxChecks) {
       const initial = [50, 20, 3750, 50, 100, 100];
       const result = this.spsa(A, a, c, initial, 1000);
       if (result.loss < best.loss) {
@@ -74,7 +91,7 @@ export default class Solver {
     // TODO: check this any
     values: any,
     iters: number,
-    called: number = 0,
+    called = 0,
   ): { values: [number, number, number, number, number, number]; loss: number; called?: number } {
     const alpha = 1;
     const gamma = 0.16666666666666666;
@@ -137,15 +154,9 @@ export default class Solver {
     // Argument as an Array of percentages.
     const color = this.reusedColor;
 
-    // If the target color is light, we should force the reused color to be white
-    // otherwise, it will use black to generate the CSS filters.
-    // This will fix the issue when the color is dark and the CSS filter is
-    // not matching the original/expected color
-    if (this.isTargetColorLight) {
-      color.set(255, 255, 255);
-    } else {
-      color.set(0, 0, 0);
-    }
+    // Resetting the color to black in case
+    // it was called more than once
+    color.set(0, 0, 0);
 
     color.invert(filters[0] / 100);
     color.sepia(filters[1] / 100);
@@ -167,12 +178,11 @@ export default class Solver {
   }
 
   css(filters: number[]): string {
-    const formatCssFilterValue = (idx: number, multiplier = 1) => {
+    const formatCssFilterValue = (idx: number, multiplier = 1): number => {
       return Math.round(filters[idx] * multiplier);
     };
 
     return [
-      `brightness(0)`,
       `invert(${formatCssFilterValue(0)}%)`,
       `sepia(${formatCssFilterValue(1)}%)`,
       `saturate(${formatCssFilterValue(2)}%)`,

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Fixed
+
+- CSS Filter working properly when receives `#FFF` color;
+- Fixed internal issue on `hexToRgb` method when receiving `#FFF` and `#000` colors
+
+### Updated
+
+- Breaking change: `HexToCssConfiguration` type now is using `acceptanceLossPercentage` instead of `acceptableLossPercentage`
+
+```
+-  acceptableLossPercentage?: number;
++  acceptanceLossPercentage?: number;
+```
+
+- Better types for internal methods
+- Improving package documentation
+- Adding documentation for consumers to use `#000` as a container background on `README.md`
+
 ## [2.0.4][] - 2020-04-24
 
 ### Fixed
@@ -116,7 +134,5 @@ To improve readability, these type definitions were renamed
 [2.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.1
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.3...HEAD
 [2.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.3
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.4...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.4...HEAD
 [2.0.4]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.4

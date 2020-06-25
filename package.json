@@ -81,23 +81,23 @@
   "bundlesize": [
     {
       "path": "./dist/esm/index.js",
-      "maxSize": "58B"
+      "maxSize": "57B"
     },
     {
       "path": "./dist/es2015/index.js",
-      "maxSize": "58B"
+      "maxSize": "57B"
     },
     {
       "path": "./dist/cjs/index.js",
-      "maxSize": "155B"
+      "maxSize": "154B"
     },
     {
       "path": "./dist/umd/hex-to-css-filter.js",
-      "maxSize": "3.39KB"
+      "maxSize": "3.45KB"
     },
     {
       "path": "./dist/umd/hex-to-css-filter.min.js",
-      "maxSize": "2.12KB"
+      "maxSize": "2.02KB"
     }
   ],
   "husky": {

@@ -9,12 +9,6 @@ export default class Color {
     this.set(r, g, b);
   }
 
-  isLight() {
-    const brightness = (this.r * 299 + this.g * 587 + this.b * 114) / 1000;
-    // If it's not light, that means it's dark
-    return brightness > 128;
-  }
-
   set(r: number, g: number, b: number) {
     this.r = this.clamp(r);
     this.g = this.clamp(g);
@@ -115,43 +109,51 @@ export default class Color {
     s: number;
     l: number;
   } {
-    const r = this.r / 255;
-    const g = this.g / 255;
-    const b = this.b / 255;
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    let h,
-      s,
-      l = (max + min) / 2;
+    const red = this.r / 255;
+    const green = this.g / 255;
+    const blue = this.b / 255;
 
+    // find greatest and smallest channel values
+    const max = Math.max(red, green, blue);
+    const min = Math.min(red, green, blue);
+
+    let hue = 0;
+    let saturation = 0;
+    let lightness = (max + min) / 2;
+
+    // If min and max have the same values, it means
+    // the given color is achromatic
     if (max === min) {
-      h = s = 0;
-    } else {
-      const d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch (max) {
-        case r:
-          h = (g - b) / d + (g < b ? 6 : 0);
-          break;
-
-        case g:
-          h = (b - r) / d + 2;
-          break;
-
-        case b:
-          h = (r - g) / d + 4;
-          break;
-        default:
-          h = 0;
-          break;
-      }
-      h /= 6;
+      return {
+        h: 0,
+        s: 0,
+        l: lightness * 100,
+      };
     }
 
+    // Adding delta value of greatest and smallest channel values
+    const delta = max - min;
+
+    saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+
+    switch (max) {
+      case red:
+        hue = (green - blue) / delta + (green < blue ? 6 : 0);
+        break;
+      case green:
+        hue = (blue - red) / delta + 2;
+        break;
+      case blue:
+        hue = (red - green) / delta + 4;
+        break;
+    }
+
+    hue /= 6;
+
     return {
-      h: h * 100,
-      s: s * 100,
-      l: l * 100,
+      h: hue * 100,
+      s: saturation * 100,
+      l: lightness * 100,
     };
   }
 

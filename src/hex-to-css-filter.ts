@@ -2,14 +2,28 @@
 import Solver from './solver';
 import Color from './color';
 
+/**
+ * Transform a CSS Color from Hexadecimal to RGB color
+ *
+ * @param {string} hex hexadecimal color
+ * @returns {([number, number, number] | [])} array with the RGB colors or empty array
+ */
 const hexToRgb = (hex: string): [number, number, number] | [] => {
-  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-  const expandShorthandHexToFullForm = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(expandShorthandHexToFullForm, (m, r, g, b) => r + r + g + g + b + b);
+  if (hex.length === 4) {
+    return [parseInt(`0x${hex[1]}${hex[1]}`), parseInt(`0x${hex[2]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[3]}`)] as [
+      number,
+      number,
+      number,
+    ];
+  } else if (hex.length === 7) {
+    return [parseInt(`0x${hex[1]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[4]}`), parseInt(`0x${hex[5]}${hex[6]}`)] as [
+      number,
+      number,
+      number,
+    ];
+  }
 
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-  return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [];
+  return [];
 };
 
 const isNumeric = (n: any): boolean => !isNaN(parseFloat(n)) && isFinite(n);
@@ -38,7 +52,7 @@ export interface HexToCssConfiguration {
    * Acceptable color percentage to be lost.
    * @default 5
    */
-  acceptableLossPercentage?: number;
+  acceptanceLossPercentage?: number;
   /**
    * Maximum checks that needs to be done to return the best value.
    * @default 10
@@ -79,7 +93,7 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
     maxChecks: 15,
   };
 
-  const HexToCssConfiguration = Object.assign({}, defaultHexToCssConfiguration, opts);
+  const HexToCssConfiguration: HexToCssConfiguration = Object.assign({}, defaultHexToCssConfiguration, opts);
 
   const solver = new Solver(color, HexToCssConfiguration);
   results[colorValue] = Object.assign({}, solver.solve(), {

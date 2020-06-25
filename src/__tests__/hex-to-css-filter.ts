@@ -35,11 +35,6 @@ describe('hexToCSSFilter', () => {
     expect(filter.includes('contrast')).toBe(true);
   });
 
-  it('should return an object with filter value starting with `brightness`', () => {
-    const { filter } = hexToCSSFilter('#802e1c');
-    expect(filter.startsWith('brightness(0)')).toBe(true);
-  });
-
   describe('When it receives options', () => {
     it('loss should NOT be more than the given acceptance loss percentage', () => {
       expect(hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1 } as HexToCssConfiguration).loss <= 1).toBe(true);
