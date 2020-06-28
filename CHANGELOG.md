@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Fixed
+
+- Fixing color generation using `maxTriesInLoop` to get the optimal color for the CSS filter
+
 ## [3.0.1][] - 2020-06-28
 
 ### Updated
@@ -149,7 +153,5 @@ To improve readability, these type definitions were renamed
 [2.0.4]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.4
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.0.0...HEAD
 [3.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.0.0
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.0.1...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.0.1...HEAD
 [3.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.0.1
