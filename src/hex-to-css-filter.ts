@@ -90,7 +90,7 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
 
   const defaultHexToCssConfiguration = {
     acceptanceLossPercentage: 5,
-    maxChecks: 15,
+    maxChecks: 30,
   };
 
   const HexToCssConfiguration: HexToCssConfiguration = Object.assign({}, defaultHexToCssConfiguration, opts);

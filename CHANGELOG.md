@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
+- Increasing `maxChecks` from 15 to 30
 - Adding private methods in classes
 - Improving internal types
 - Removing `any` from codebase
