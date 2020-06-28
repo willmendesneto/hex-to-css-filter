@@ -1,5 +1,11 @@
 /* eslint-disable */
 
+type HSLData = {
+  h: number;
+  s: number;
+  l: number;
+};
+
 export default class Color {
   r: number = 0;
   g: number = 0;
@@ -75,7 +81,7 @@ export default class Color {
     ]);
   }
 
-  multiply(matrix: number[]): void {
+  private multiply(matrix: number[]): void {
     const newR = this.clamp(this.r * matrix[0] + this.g * matrix[1] + this.b * matrix[2]);
     const newG = this.clamp(this.r * matrix[3] + this.g * matrix[4] + this.b * matrix[5]);
     const newB = this.clamp(this.r * matrix[6] + this.g * matrix[7] + this.b * matrix[8]);
@@ -92,7 +98,7 @@ export default class Color {
     this.linear(value, -(0.5 * value) + 0.5);
   }
 
-  linear(slope = 1, intercept = 0) {
+  private linear(slope = 1, intercept = 0) {
     this.r = this.clamp(this.r * slope + intercept * 255);
     this.g = this.clamp(this.g * slope + intercept * 255);
     this.b = this.clamp(this.b * slope + intercept * 255);
@@ -104,11 +110,7 @@ export default class Color {
     this.b = this.clamp((value + (this.b / 255) * (1 - 2 * value)) * 255);
   }
 
-  hsl(): {
-    h: number;
-    s: number;
-    l: number;
-  } {
+  hsl(): HSLData {
     const red = this.r / 255;
     const green = this.g / 255;
     const blue = this.b / 255;
@@ -157,7 +159,7 @@ export default class Color {
     };
   }
 
-  clamp(value: number): number {
+  private clamp(value: number): number {
     if (value > 255) {
       value = 255;
     } else if (value < 0) {

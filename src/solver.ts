@@ -1,11 +1,21 @@
 import Color from './color';
 import { HexToCssConfiguration } from './hex-to-css-filter';
 
+type FilterValuesArray = [number, number, number, number, number, number];
+type SPSAPayload = {
+  /** How many times the script was called to solve the color */
+  called?: number;
+  /** Percentage loss value for the generated filter */
+  loss: number;
+  /** Percentage loss per each color type organized in RGB: red, green, blue, h, s, l. */
+  values: FilterValuesArray;
+};
+
 export default class Solver {
-  target: Color;
-  targetHSL: { h: number; s: number; l: number };
-  reusedColor: Color;
-  options: { acceptanceLossPercentage: number; maxChecks: number } & HexToCssConfiguration;
+  private target: Color;
+  private targetHSL: { h: number; s: number; l: number };
+  private reusedColor: Color;
+  private options: { acceptanceLossPercentage: number; maxChecks: number } & HexToCssConfiguration;
 
   constructor(target: Color, options?: HexToCssConfiguration) {
     this.target = target;
@@ -30,15 +40,9 @@ export default class Solver {
     this.reusedColor = new Color(0, 0, 0);
   }
 
-  solve(): {
-    /** How many times the script was called to solve the color */
-    called?: number;
+  solve(): SPSAPayload & {
     /** CSS filter generated based on the Hex color */
     filter: string;
-    /** Percentage loss value for the generated filter */
-    loss: number;
-    /** Percentage loss per each color type organized in RGB: red, green, blue, h, s, l. */
-    values: [number, number, number, number, number, number];
   } {
     const result = this.solveNarrow(this.solveWide());
     return {
@@ -49,16 +53,16 @@ export default class Solver {
     };
   }
 
-  solveWide(): any {
+  private solveWide(): SPSAPayload {
     const A = 5;
     const c = 15;
     const a = [60, 180, 18000, 600, 1.2, 1.2];
 
     let best = { loss: Infinity };
     let counter = 0;
-    while (best.loss > this.options.acceptanceLossPercentage && counter < this.options.maxChecks) {
-      const initial = [50, 20, 3750, 50, 100, 100];
-      const result = this.spsa(A, a, c, initial, 1000);
+    while (best.loss > this.options.acceptanceLossPercentage) {
+      const initial: FilterValuesArray = [50, 20, 3750, 50, 100, 100];
+      const result: SPSAPayload = this.spsa(A, a, c, initial, 1000);
       if (result.loss < best.loss) {
         best = result;
       }
@@ -69,72 +73,72 @@ export default class Solver {
       }
     }
 
-    return Object.assign({}, best, { called: counter });
+    return Object.assign({}, best, { called: counter }) as SPSAPayload;
   }
 
-  solveNarrow(wide: {
-    values: [number, number, number, number, number, number];
-    loss: number;
-    called?: number;
-  }): { values: [number, number, number, number, number, number]; loss: number; called?: number } {
+  private solveNarrow(wide: SPSAPayload): SPSAPayload {
     const A = wide.loss;
     const c = 2;
     const A1 = A + 1;
     const a = [0.25 * A1, 0.25 * A1, A1, 0.25 * A1, 0.2 * A1, 0.2 * A1];
-    return this.spsa(A, a, c, wide.values, 500, wide.called);
+    return this.spsa(A, a, c, wide.values, wide.called);
   }
 
-  spsa(
+  private spsa(
     A: number,
     a: number[],
     c: number,
     // TODO: check this any
-    values: any,
-    iters: number,
+    values: FilterValuesArray,
     called = 0,
-  ): { values: [number, number, number, number, number, number]; loss: number; called?: number } {
+  ): SPSAPayload {
     const alpha = 1;
     const gamma = 0.16666666666666666;
+    const maxTriesInLoop = 500;
 
     let best = null;
     let bestLoss = Infinity;
 
-    const deltas = new Array(6);
-    const highArgs = new Array(6);
-    const lowArgs = new Array(6);
+    const deltas = new Array(6) as FilterValuesArray;
+    const highArgs = new Array(6) as FilterValuesArray;
+    const lowArgs = new Array(6) as FilterValuesArray;
 
     function fix(value: number, idx: number): number {
       let max = 100;
+      // Fixing max, minimum and value by filter
       if (idx === 2 /* saturate */) {
         max = 7500;
       } else if (idx === 4 /* brightness */ || idx === 5 /* contrast */) {
         max = 200;
+      } else if (idx === 3 /* hue-rotate */ && value > max) {
+        value %= max;
+      } else if (idx === 3 /* hue-rotate */ && value < 0) {
+        value = max + (value % max);
       }
-
-      if (idx === 3 /* hue-rotate */) {
-        if (value > max) {
-          value %= max;
-        } else if (value < 0) {
-          value = max + (value % max);
-        }
-      } else if (value < 0) {
+      // Checking if value is below the minimum or above
+      // the maximum allowed by filter
+      else if (value < 0) {
         value = 0;
       } else if (value > max) {
         value = max;
       }
+
       return value;
     }
 
-    for (let k = 0; k < iters; k++) {
+    // Size of all CSS filters to be applied to get the correct color
+    const filtersToBeAppliedSize = 6;
+
+    for (let k = 0; k < maxTriesInLoop; k++) {
       const ck = c / Math.pow(k + 1, gamma);
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < filtersToBeAppliedSize; i++) {
         deltas[i] = Math.random() > 0.5 ? 1 : -1;
         highArgs[i] = values[i] + ck * deltas[i];
         lowArgs[i] = values[i] - ck * deltas[i];
       }
 
       const lossDiff = this.loss(highArgs) - this.loss(lowArgs);
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < filtersToBeAppliedSize; i++) {
         const g = (lossDiff / (2 * ck)) * deltas[i];
         const ak = a[i] / Math.pow(A + k + 1, alpha);
         values[i] = fix(values[i] - ak * g, i);
@@ -147,10 +151,10 @@ export default class Solver {
       }
     }
 
-    return { values: best, loss: bestLoss, called };
+    return { values: best, loss: bestLoss, called } as SPSAPayload;
   }
 
-  loss(filters: number[]): number {
+  private loss(filters: FilterValuesArray): number {
     // Argument as an Array of percentages.
     const color = this.reusedColor;
 
@@ -177,7 +181,7 @@ export default class Solver {
     );
   }
 
-  css(filters: number[]): string {
+  private css(filters: number[]): string {
     const formatCssFilterValue = (idx: number, multiplier = 1): number => {
       return Math.round(filters[idx] * multiplier);
     };

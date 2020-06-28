@@ -26,7 +26,7 @@ const hexToRgb = (hex: string): [number, number, number] | [] => {
   return [];
 };
 
-const isNumeric = (n: any): boolean => !isNaN(parseFloat(n)) && isFinite(n);
+const isNumeric = (n: unknown): boolean => !isNaN(parseFloat(n as string)) && isFinite(n as number);
 
 const results: {
   [k: string]: HexToCssResult;

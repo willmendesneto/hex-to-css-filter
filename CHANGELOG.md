@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Updated
+
+- Adding private methods in classes
+- Improving internal types
+- Removing `any` from codebase
+
 ## [3.0.0][] - 2020-06-25
 
 ### Fixed
@@ -138,7 +144,5 @@ To improve readability, these type definitions were renamed
 [2.0.3]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.3
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v2.0.4...HEAD
 [2.0.4]: https://github.com/willmendesneto/hex-to-css-filter/tree/v2.0.4
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.0.0...HEAD
 [3.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.0.0

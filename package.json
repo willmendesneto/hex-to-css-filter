@@ -64,8 +64,8 @@
     "compile": "tsc",
     "clean": "rm -rf ./dist ./.jest ./coverage ./lib",
     "build": "yarn build:es2015 && yarn build:cjs && yarn build:esm && yarn build:umd",
-    "build:umd": "rollup dist/esm/index.js --format umd --name PerfMarks -o dist/umd/hex-to-css-filter.js && yarn build:umd:min",
-    "build:umd:min": "uglifyjs --compress --mangle --screw-ie8 --comments -o dist/umd/hex-to-css-filter.min.js -- dist/umd/hex-to-css-filter.js && gzip dist/umd/hex-to-css-filter.min.js -c > dist/umd/hex-to-css-filter.min.js.gz",
+    "build:umd": "rollup dist/esm/index.js --format umd --name HexToCSSFilter -o dist/umd/hex-to-css-filter.js && yarn build:umd:min",
+    "build:umd:min": "uglifyjs --compress --mangle --comments -o dist/umd/hex-to-css-filter.min.js -- dist/umd/hex-to-css-filter.js && gzip dist/umd/hex-to-css-filter.min.js -c > dist/umd/hex-to-css-filter.min.js.gz",
     "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
     "build:esm": "tsc --module esnext --target es5 --outDir dist/esm",
     "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
@@ -93,7 +93,7 @@
     },
     {
       "path": "./dist/umd/hex-to-css-filter.js",
-      "maxSize": "3.45KB"
+      "maxSize": "3.5KB"
     },
     {
       "path": "./dist/umd/hex-to-css-filter.min.js",

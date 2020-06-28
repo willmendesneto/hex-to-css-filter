@@ -36,13 +36,15 @@ describe('hexToCSSFilter', () => {
   });
 
   describe('When it receives options', () => {
-    it('loss should NOT be more than the given acceptance loss percentage', () => {
-      expect(hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1 } as HexToCssConfiguration).loss <= 1).toBe(true);
+    it('loss should NOT be more than the given acceptance loss percentage OR should be more AND was called at allowed maxChecks', () => {
+      const res = hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1, maxChecks: 5 } as HexToCssConfiguration);
+      expect(res.loss <= 1 || (res.loss > 1 && res.called === 5)).toBe(true);
     });
 
     it('loss should NOT check more than the given maximum value to check', () => {
       expect(
-        hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1, maxChecks: 5 } as HexToCssConfiguration).called <= 5,
+        hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 0.01, maxChecks: 1 } as HexToCssConfiguration).called <=
+          5,
       ).toBe(true);
     });
   });
