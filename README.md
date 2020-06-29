@@ -140,6 +140,7 @@ console.log(cssFilter);
 
 It returns an object with the values:
 
+- `cache`: returns a boolean to confirm if value was previously computed and is coming from local memory cache or not;
 - `called`: how many times the script was called to solve the color;
 - `filter`: CSS filter generated based on the HEX color;
 - `hex`: the received color;
@@ -151,6 +152,7 @@ It returns an object with the values:
 
 `acceptanceLossPercentage`: Acceptable color percentage to be lost. Default: `5`;
 `maxChecks`: Maximum checks that needs to be done to return the best value. Default: `10`;
+`forceFilterRecalculation`: Boolean value that forces recalculation for CSS filter generation. Default: `false`;
 
 ## Publish
 

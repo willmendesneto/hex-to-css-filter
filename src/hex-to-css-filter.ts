@@ -47,6 +47,9 @@ export interface HexToCssResult {
   rgb: [number, number, number];
   /** Percentage loss per each color type organized in RGB: red, green, blue, h, s, l. */
   values: [number, number, number, number, number, number];
+  /** Boolean that returns true if value was previously computed.
+   * So that means the returned value is coming from the in-memory cached */
+  cache: boolean;
 }
 
 export interface HexToCssConfiguration {
@@ -60,6 +63,11 @@ export interface HexToCssConfiguration {
    * @default 10
    */
   maxChecks?: number;
+  /**
+   * Boolean value that forces recalculation for CSS filter generation.
+   * @default false
+   */
+  forceFilterRecalculation?: boolean;
 }
 
 /**
@@ -74,8 +82,8 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
   let green;
   let blue;
 
-  if (results[colorValue]) {
-    return results[colorValue] as HexToCssResult;
+  if (results[colorValue] && !opts.forceFilterRecalculation) {
+    return Object.assign({}, results[colorValue], { cache: true }) as HexToCssResult;
   }
 
   let color: Color;
@@ -93,6 +101,7 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
   const defaultHexToCssConfiguration = {
     acceptanceLossPercentage: 5,
     maxChecks: 30,
+    forceFilterRecalculation: false,
   };
 
   const HexToCssConfiguration: HexToCssConfiguration = Object.assign({}, defaultHexToCssConfiguration, opts);
@@ -101,6 +110,7 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
   results[colorValue] = Object.assign({}, solver.solve(), {
     hex: colorValue,
     rgb: [red, green, blue],
+    cache: false,
   }) as HexToCssResult;
 
   return results[colorValue] as HexToCssResult;

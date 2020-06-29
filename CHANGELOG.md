@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Added
+
+- Adding boolean `cache` field into the `hexToCSSFilter()` payload;
+- Adding
+  ynew configuration option: `forceFilterRecalculation`. It's a boolean value that forces recalculation for CSS filter generation. Default: `false`;
+
 ### Fixed
 
 - Fixing color generation using `maxTriesInLoop` to get the optimal color for the CSS filter

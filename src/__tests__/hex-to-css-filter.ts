@@ -5,6 +5,18 @@ describe('hexToCSSFilter', () => {
     expect(hexToCSSFilter('#00a4d6').loss <= 10).toBe(true);
   });
 
+  it('should use cache  if `forceFilterRecalculation` is falsy via method configuration or is not configured', () => {
+    expect(hexToCSSFilter('#24639C').cache).toBe(false);
+    expect(hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration).cache).toBe(true);
+    expect(hexToCSSFilter('#24639C').cache).toBe(true);
+  });
+
+  it('should NOT use cache if `forceFilterRecalculation` is passed as `true` via method configuration', () => {
+    expect(hexToCSSFilter('#F6D55C', { forceFilterRecalculation: true } as HexToCssConfiguration).cache).toBe(false);
+    expect(hexToCSSFilter('#F6D55C', { forceFilterRecalculation: true } as HexToCssConfiguration).cache).toBe(false);
+    expect(hexToCSSFilter('#F6D55C', { forceFilterRecalculation: true } as HexToCssConfiguration).cache).toBe(false);
+  });
+
   it('loss should NOT check more than the default maximum value to check', () => {
     expect(hexToCSSFilter('#00a4d6').called <= 10).toBe(true);
   });
@@ -28,11 +40,20 @@ describe('hexToCSSFilter', () => {
   });
 
   it('should return an object with the given values', () => {
-    expect(Object.keys(hexToCSSFilter('#00a4d6')).sort()).toEqual(['called', 'filter', 'hex', 'loss', 'rgb', 'values']);
+    expect(Object.keys(hexToCSSFilter('#00a4d6')).sort()).toEqual([
+      'cache',
+      'called',
+      'filter',
+      'hex',
+      'loss',
+      'rgb',
+      'values',
+    ]);
   });
 
-  it('should return an object with the given values', () => {
+  it('should return an object with the given CSS Filter values', () => {
     const { filter } = hexToCSSFilter('#00a4d6');
+    expect(filter.split(' ').length).toEqual(6);
     expect(filter.includes('invert')).toBe(true);
     expect(filter.includes('sepia')).toBe(true);
     expect(filter.includes('saturate')).toBe(true);
@@ -43,7 +64,7 @@ describe('hexToCSSFilter', () => {
 
   describe('When it receives options', () => {
     it('loss should NOT be more than the given acceptance loss percentage OR should be more AND was called at allowed maxChecks', () => {
-      const res = hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 1, maxChecks: 5 } as HexToCssConfiguration);
+      const res = hexToCSSFilter('#ED553C', { acceptanceLossPercentage: 1, maxChecks: 5 } as HexToCssConfiguration);
       expect(res.loss <= 1 || (res.loss > 1 && res.called === 5)).toBe(true);
     });
 
