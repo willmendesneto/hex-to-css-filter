@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [3.1.0][] - 2020-06-29
+
 ### Added
 
 - Adding boolean `cache` field into the `hexToCSSFilter()` payload;
@@ -161,3 +163,7 @@ To improve readability, these type definitions were renamed
 [3.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.0.0
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.0.1...HEAD
 [3.0.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.0.1
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.0
