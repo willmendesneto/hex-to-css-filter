@@ -21,6 +21,12 @@ export default class Color {
     this.b = this.clamp(b);
   }
 
+  /**
+   * Applying cals to get CSS filter for hue-rotate
+   *
+   * @param {number} [angle=0]
+   * @memberof Color
+   */
   hueRotate(angle: number = 0) {
     angle = (angle / 180) * Math.PI;
     const sin = Math.sin(angle);
@@ -39,6 +45,12 @@ export default class Color {
     ]);
   }
 
+  /**
+   * Applying cals to get CSS filter for grayscale
+   *
+   * @param {number} [value=1]
+   * @memberof Color
+   */
   grayscale(value = 1) {
     this.multiply([
       0.2126 + 0.7874 * (1 - value),
@@ -53,6 +65,12 @@ export default class Color {
     ]);
   }
 
+  /**
+   * Applying cals to get CSS filter for sepia
+   *
+   * @param {number} [value=1]
+   * @memberof Color
+   */
   sepia(value = 1) {
     this.multiply([
       0.393 + 0.607 * (1 - value),
@@ -67,6 +85,12 @@ export default class Color {
     ]);
   }
 
+  /**
+   * Applying cals to get CSS filter for saturate
+   *
+   * @param {number} [value=1]
+   * @memberof Color
+   */
   saturate(value = 1) {
     this.multiply([
       0.213 + 0.787 * value,
@@ -90,10 +114,22 @@ export default class Color {
     this.b = newB;
   }
 
+  /**
+   * Applying cals to get CSS filter for brightness
+   *
+   * @param {number} [value=1]
+   * @memberof Color
+   */
   brightness(value = 1) {
     this.linear(value);
   }
 
+  /**
+   * Applying cals to get CSS filter for contrast
+   *
+   * @param {number} [value=1]
+   * @memberof Color
+   */
   contrast(value = 1) {
     this.linear(value, -(0.5 * value) + 0.5);
   }
@@ -104,12 +140,24 @@ export default class Color {
     this.b = this.clamp(this.b * slope + intercept * 255);
   }
 
+  /**
+   * Applying cals to get CSS filter for invert
+   *
+   * @param {number} [value=1]
+   * @memberof Color
+   */
   invert(value = 1): void {
     this.r = this.clamp((value + (this.r / 255) * (1 - 2 * value)) * 255);
     this.g = this.clamp((value + (this.g / 255) * (1 - 2 * value)) * 255);
     this.b = this.clamp((value + (this.b / 255) * (1 - 2 * value)) * 255);
   }
 
+  /**
+   * transform RGB into HSL values
+   *
+   * @returns {HSLData}
+   * @memberof Color
+   */
   hsl(): HSLData {
     const red = this.r / 255;
     const green = this.g / 255;
@@ -159,12 +207,19 @@ export default class Color {
     };
   }
 
+  /**
+   * Normalize the value to follow the min and max for RGB colors
+   * min: 0
+   * max: 255
+   *
+   * @private
+   * @param {number} value
+   * @returns {number}
+   * @memberof Color
+   */
   private clamp(value: number): number {
-    if (value > 255) {
-      value = 255;
-    } else if (value < 0) {
-      value = 0;
-    }
-    return value;
+    const minRGBValue = 0;
+    const maxRGBValue = 255;
+    return Math.min(Math.max(value, minRGBValue), maxRGBValue);
   }
 }

@@ -28,6 +28,8 @@ const hexToRgb = (hex: string): [number, number, number] | [] => {
 
 const isNumeric = (n: unknown): boolean => !isNaN(parseFloat(n as string)) && isFinite(n as number);
 
+// Memory cache for the computed results to avoid multiple
+// calculations for the same color
 const results: {
   [k: string]: HexToCssResult;
 } = {};

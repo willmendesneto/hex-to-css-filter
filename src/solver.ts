@@ -17,7 +17,7 @@ export default class Solver {
   private reusedColor: Color;
   private options: { acceptanceLossPercentage: number; maxChecks: number } & HexToCssConfiguration;
 
-  constructor(target: Color, options?: HexToCssConfiguration) {
+  constructor(target: Color, options: HexToCssConfiguration) {
     this.target = target;
     this.targetHSL = target.hsl();
 
@@ -28,7 +28,7 @@ export default class Solver {
         acceptanceLossPercentage: 5,
         maxChecks: 15,
       },
-      options || {},
+      options,
     );
 
     // All the calcs done by the library to generate
@@ -40,6 +40,12 @@ export default class Solver {
     this.reusedColor = new Color(0, 0, 0);
   }
 
+  /**
+   * Returns the solved values for the
+   *
+   * @returns {(SPSAPayload & { filter: string; })}
+   * @memberof Solver
+   */
   solve(): SPSAPayload & {
     /** CSS filter generated based on the Hex color */
     filter: string;
@@ -53,16 +59,33 @@ export default class Solver {
     };
   }
 
+  /**
+   * Solve wide values based on the wide values for RGB and HSL values
+   *
+   * @private
+   * @returns {SPSAPayload}
+   * @memberof Solver
+   */
   private solveWide(): SPSAPayload {
     const A = 5;
     const c = 15;
+    // Wide values for RGB and HSL values
+    // the values in the order: [`r`, `g`, `b`, `h`, `s`, `l`]
     const a = [60, 180, 18000, 600, 1.2, 1.2];
 
     let best = { loss: Infinity };
     let counter = 0;
     while (best.loss > this.options.acceptanceLossPercentage) {
       const initialFilterValues: FilterValuesArray = [50, 20, 3750, 50, 100, 100];
-      const result: SPSAPayload = this.spsa({ A, a, c, values: initialFilterValues, maxTriesInLoop: 1000 });
+      const result: SPSAPayload = this.spsa({
+        A,
+        a,
+        c,
+        values: initialFilterValues,
+        // for wide values we should use the double of tries in
+        // comparison of `solveNarrow()` method
+        maxTriesInLoop: 1000,
+      });
 
       if (result.loss < best.loss) {
         best = result;
@@ -77,10 +100,20 @@ export default class Solver {
     return Object.assign({}, best, { called: counter }) as SPSAPayload;
   }
 
+  /**
+   * Solve narrow values based on the wide values for the filter
+   *
+   * @private
+   * @param {SPSAPayload} wide
+   * @returns {SPSAPayload}
+   * @memberof Solver
+   */
   private solveNarrow(wide: SPSAPayload): SPSAPayload {
     const A = wide.loss;
     const c = 2;
     const A1 = A + 1;
+    // Narrow values for RGB and HSL values
+    // the values in the order: [`r`, `g`, `b`, `h`, `s`, `l`]
     const a = [0.25 * A1, 0.25 * A1, A1, 0.25 * A1, 0.2 * A1, 0.2 * A1];
     return this.spsa({
       A,
@@ -141,7 +174,6 @@ export default class Solver {
     A: number;
     a: number[];
     c: number;
-    // TODO: check this any
     values: FilterValuesArray;
     maxTriesInLoop: number;
     called?: number;
@@ -184,6 +216,14 @@ export default class Solver {
     return { values: best, loss: bestLoss, called } as SPSAPayload;
   }
 
+  /**
+   * Checks how much is the loss for the filter in RGB and HSL colors
+   *
+   * @private
+   * @param {FilterValuesArray} filters
+   * @returns {number}
+   * @memberof Solver
+   */
   private loss(filters: FilterValuesArray): number {
     // Argument as an Array of percentages.
     const color = this.reusedColor;
@@ -211,6 +251,14 @@ export default class Solver {
     );
   }
 
+  /**
+   * Returns the CSS filter list for the received HEX color
+   *
+   * @private
+   * @param {number[]} filters
+   * @returns {string}
+   * @memberof Solver
+   */
   private css(filters: number[]): string {
     const formatCssFilterValue = (idx: number, multiplier = 1): number => {
       return Math.round(filters[idx] * multiplier);

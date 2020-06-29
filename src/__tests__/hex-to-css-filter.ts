@@ -13,12 +13,18 @@ describe('hexToCSSFilter', () => {
     expect(hexToCSSFilter('#FF0000').rgb).toEqual([255, 0, 0]);
   });
 
+  it('should work if receives a short HEX color', () => {
+    expect(hexToCSSFilter('#000').hex).toBe('#000');
+  });
+
   it('should return the same value as received in `hex` attribute', () => {
     expect(hexToCSSFilter('#FF0000').hex).toBe('#FF0000');
   });
 
   it('should throw an error if it receives an invalid color', () => {
     expect(() => hexToCSSFilter('invalid')).toThrowError(/Color value should be in HEX format/);
+    // invalid color with more than 7 characters (one of the rules to get full HEX colors #000000)
+    expect(() => hexToCSSFilter('invalid-value')).toThrowError(/Color value should be in HEX format/);
   });
 
   it('should return an object with the given values', () => {
@@ -43,8 +49,7 @@ describe('hexToCSSFilter', () => {
 
     it('loss should NOT check more than the given maximum value to check', () => {
       expect(
-        hexToCSSFilter('#00a4d6', { acceptanceLossPercentage: 0.01, maxChecks: 1 } as HexToCssConfiguration).called <=
-          5,
+        hexToCSSFilter('#F6C6CE', { acceptanceLossPercentage: 0.01, maxChecks: 1 } as HexToCssConfiguration).called < 2,
       ).toBe(true);
     });
   });
