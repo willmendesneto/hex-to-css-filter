@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [3.1.2][] - 2020-07-24
+
 ### Fixed
 
 - Fixing UMD bundle by using Rollup. Typescript was required in the package and one of the TS functions is required in the bundle.
@@ -177,3 +179,7 @@ To improve readability, these type definitions were renamed
 [3.1.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.0
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.1.1...HEAD
 [3.1.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.1
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.1.2...HEAD
+[3.1.2]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.2
