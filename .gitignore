@@ -9,6 +9,7 @@ dist
 .jest/
 out-tsc/
 *.js
+!rollup.config.js
 *.d.ts
 !jest.*.js
 !scripts/*
