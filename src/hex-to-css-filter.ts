@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Solver from './solver';
 import Color from './color';
 

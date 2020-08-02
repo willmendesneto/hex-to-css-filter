@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 type HSLData = {
   h: number;
   s: number;
@@ -7,15 +5,15 @@ type HSLData = {
 };
 
 export default class Color {
-  r: number = 0;
-  g: number = 0;
-  b: number = 0;
+  r = 0;
+  g = 0;
+  b = 0;
 
   constructor(r: number, g: number, b: number) {
     this.set(r, g, b);
   }
 
-  set(r: number, g: number, b: number) {
+  set(r: number, g: number, b: number): void {
     this.r = this.clamp(r);
     this.g = this.clamp(g);
     this.b = this.clamp(b);
@@ -27,7 +25,7 @@ export default class Color {
    * @param {number} [angle=0]
    * @memberof Color
    */
-  hueRotate(angle: number = 0) {
+  hueRotate(angle = 0): void {
     angle = (angle / 180) * Math.PI;
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
@@ -51,7 +49,7 @@ export default class Color {
    * @param {number} [value=1]
    * @memberof Color
    */
-  grayscale(value = 1) {
+  grayscale(value = 1): void {
     this.multiply([
       0.2126 + 0.7874 * (1 - value),
       0.7152 - 0.7152 * (1 - value),
@@ -71,7 +69,7 @@ export default class Color {
    * @param {number} [value=1]
    * @memberof Color
    */
-  sepia(value = 1) {
+  sepia(value = 1): void {
     this.multiply([
       0.393 + 0.607 * (1 - value),
       0.769 - 0.769 * (1 - value),
@@ -91,7 +89,7 @@ export default class Color {
    * @param {number} [value=1]
    * @memberof Color
    */
-  saturate(value = 1) {
+  saturate(value = 1): void {
     this.multiply([
       0.213 + 0.787 * value,
       0.715 - 0.715 * value,
@@ -120,7 +118,7 @@ export default class Color {
    * @param {number} [value=1]
    * @memberof Color
    */
-  brightness(value = 1) {
+  brightness(value = 1): void {
     this.linear(value);
   }
 
@@ -130,7 +128,7 @@ export default class Color {
    * @param {number} [value=1]
    * @memberof Color
    */
-  contrast(value = 1) {
+  contrast(value = 1): void {
     this.linear(value, -(0.5 * value) + 0.5);
   }
 
@@ -169,7 +167,7 @@ export default class Color {
 
     let hue = 0;
     let saturation = 0;
-    let lightness = (max + min) / 2;
+    const lightness = (max + min) / 2;
 
     // If min and max have the same values, it means
     // the given color is achromatic
