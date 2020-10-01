@@ -63,8 +63,6 @@ $ yarn install
 
 Try out our [demo on Stackblitz](https://hex-to-css-filter-playground.stackblitz.io)!
 
-![Perf marks in action](./images/hex-to-css-filter-in-action.gif)
-
 ### Run the tests
 
 ```bash
