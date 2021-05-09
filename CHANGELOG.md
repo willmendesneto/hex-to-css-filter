@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
-- Updating the project dependencies to the latest version
+- Updating the project dependencies and devDependencies to the latest version
+- Decreasing package bundle size
 
 ## [3.1.2][] - 2020-07-24
 

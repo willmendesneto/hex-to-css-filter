@@ -2,14 +2,14 @@ import Color from './color';
 import { HexToCssConfiguration } from './hex-to-css-filter';
 
 type FilterValuesArray = [number, number, number, number, number, number];
-type SPSAPayload = {
+interface SPSAPayload {
   /** How many times the script was called to solve the color */
   called?: number;
   /** Percentage loss value for the generated filter */
   loss: number;
   /** Percentage loss per each color type organized in RGB: red, green, blue, h, s, l. */
   values: FilterValuesArray;
-};
+}
 
 export default class Solver {
   private target: Color;
@@ -260,17 +260,16 @@ export default class Solver {
    * @memberof Solver
    */
   private css(filters: number[]): string {
-    const formatCssFilterValue = (idx: number, multiplier = 1): number => {
-      return Math.round(filters[idx] * multiplier);
-    };
+    const formatCssFilterValueByMultiplier = (idx: number, multiplier = 1): number =>
+      Math.round(filters[idx] * multiplier);
 
     return [
-      `invert(${formatCssFilterValue(0)}%)`,
-      `sepia(${formatCssFilterValue(1)}%)`,
-      `saturate(${formatCssFilterValue(2)}%)`,
-      `hue-rotate(${formatCssFilterValue(3, 3.6)}deg)`,
-      `brightness(${formatCssFilterValue(4)}%)`,
-      `contrast(${formatCssFilterValue(5)}%);`,
+      `invert(${formatCssFilterValueByMultiplier(0)}%)`,
+      `sepia(${formatCssFilterValueByMultiplier(1)}%)`,
+      `saturate(${formatCssFilterValueByMultiplier(2)}%)`,
+      `hue-rotate(${formatCssFilterValueByMultiplier(3, 3.6)}deg)`,
+      `brightness(${formatCssFilterValueByMultiplier(4)}%)`,
+      `contrast(${formatCssFilterValueByMultiplier(5)}%);`,
     ].join(' ');
   }
 }

@@ -1,8 +1,8 @@
-type HSLData = {
+interface HSLData {
   h: number;
   s: number;
   l: number;
-};
+}
 
 export default class Color {
   r = 0;
@@ -104,6 +104,7 @@ export default class Color {
   }
 
   private multiply(matrix: number[]): void {
+    // These values are needed. It's correct because the returned values will change
     const newR = this.clamp(this.r * matrix[0] + this.g * matrix[1] + this.b * matrix[2]);
     const newG = this.clamp(this.r * matrix[3] + this.g * matrix[4] + this.b * matrix[5]);
     const newB = this.clamp(this.r * matrix[6] + this.g * matrix[7] + this.b * matrix[8]);
@@ -184,16 +185,12 @@ export default class Color {
 
     saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
 
-    switch (max) {
-      case red:
-        hue = (green - blue) / delta + (green < blue ? 6 : 0);
-        break;
-      case green:
-        hue = (blue - red) / delta + 2;
-        break;
-      case blue:
-        hue = (red - green) / delta + 4;
-        break;
+    if (max === red) {
+      hue = (green - blue) / delta + (green < blue ? 6 : 0);
+    } else if (max === green) {
+      hue = (blue - red) / delta + 2;
+    } else if (max === blue) {
+      hue = (red - green) / delta + 4;
     }
 
     hue /= 6;
@@ -216,8 +213,8 @@ export default class Color {
    * @memberof Color
    */
   private clamp(value: number): number {
-    const minRGBValue = 0;
-    const maxRGBValue = 255;
-    return Math.min(Math.max(value, minRGBValue), maxRGBValue);
+    // Minimum RGB Value = 0;
+    // Maximum RGB Value = 255;
+    return Math.min(Math.max(value, 0), 255);
   }
 }
