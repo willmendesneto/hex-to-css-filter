@@ -73,33 +73,11 @@
     "pretest:ci": "yarn lint",
     "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "check-coverage": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage",
-    "bundlesize": "bundlesize",
+    "bundlesize": "bundlesize --config bundlesize.config.json",
     "lint": "eslint '{scripts,src}/**/*.[tj]s'",
     "lint:fix": "prettier --no-editorconfig --write",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
-  "bundlesize": [
-    {
-      "path": "./dist/esm/index.js",
-      "maxSize": "57B"
-    },
-    {
-      "path": "./dist/es2015/index.js",
-      "maxSize": "57B"
-    },
-    {
-      "path": "./dist/cjs/index.js",
-      "maxSize": "154B"
-    },
-    {
-      "path": "./dist/umd/hex-to-css-filter.js",
-      "maxSize": "5KB"
-    },
-    {
-      "path": "./dist/umd/hex-to-css-filter.min.js",
-      "maxSize": "2.3KB"
-    }
-  ],
   "lint-staged": {
     "*.{js,ts}": [
       "prettier --no-editorconfig --write"

@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "./dist/esm/index.js",
+      "maxSize": "57B"
+    },
+    {
+      "path": "./dist/es2015/index.js",
+      "maxSize": "57B"
+    },
+    {
+      "path": "./dist/cjs/index.js",
+      "maxSize": "154B"
+    },
+    {
+      "path": "./dist/umd/hex-to-css-filter.js",
+      "maxSize": "5KB"
+    },
+    {
+      "path": "./dist/umd/hex-to-css-filter.min.js",
+      "maxSize": "2.3KB"
+    }
+  ]
+}
