@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Updated
+
+- Updating NodeJS version to v14.11.0
+- Upgrading dependencies and devDependencies
+
 ### Added
 
 - Adding `clearCache` function to removed values from memory cache. It also gives the option of clear all cached values from memory.
