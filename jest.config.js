@@ -14,7 +14,7 @@ module.exports = {
       branches: 80,
       functions: 92,
       lines: 96,
-      statements: 96,
+      statements: 94,
     },
   },
   preset: 'ts-jest',
