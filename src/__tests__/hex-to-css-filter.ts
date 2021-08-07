@@ -1,8 +1,59 @@
+import { clearCache } from '../hex-to-css-filter';
 import { hexToCSSFilter, HexToCssConfiguration } from '../index';
 
 describe('hexToCSSFilter', () => {
+  beforeEach(() => clearCache());
+
   it('loss should NOT be more than the default acceptance loss percentage', () => {
     expect(hexToCSSFilter('#00a4d6').loss <= 10).toBe(true);
+  });
+
+  it('should clear all memory cache if `clearCache` is called with no arguments', () => {
+    const [firstResult, secondResult, thirdResult, forthResult] = [
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+    ].map(({ cache: _cache, ...rest }) => rest);
+
+    expect(firstResult).toEqual(secondResult);
+    expect(thirdResult).toEqual(forthResult);
+
+    clearCache();
+
+    const [fifthResult, sixthResult] = [
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+    ].map(({ cache: _cache, ...rest }) => rest);
+
+    expect(fifthResult).not.toEqual(firstResult);
+    expect(fifthResult).not.toEqual(secondResult);
+    expect(sixthResult).not.toEqual(thirdResult);
+    expect(sixthResult).not.toEqual(forthResult);
+  });
+
+  it('should clear memory cache only for received argument if `clearCache` is called with arguments', () => {
+    const [firstResult, secondResult, thirdResult, forthResult] = [
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+    ].map(({ cache: _cache, ...rest }) => rest);
+
+    expect(firstResult).toEqual(secondResult);
+    expect(thirdResult).toEqual(forthResult);
+
+    clearCache('#24639C');
+
+    const [fifthResult, sixthResult] = [
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+    ].map(({ cache: _cache, ...rest }) => rest);
+
+    expect(fifthResult).not.toEqual(firstResult);
+    expect(fifthResult).not.toEqual(secondResult);
+    expect(sixthResult).toEqual(thirdResult);
+    expect(sixthResult).toEqual(forthResult);
   });
 
   it('should use cache  if `forceFilterRecalculation` is falsy via method configuration or is not configured', () => {

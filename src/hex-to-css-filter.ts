@@ -31,9 +31,9 @@ const isNumeric = (n: unknown): boolean => !isNaN(parseFloat(n as string)) && is
 
 // Memory cache for the computed results to avoid multiple
 // calculations for the same color
-const results: {
+let results: {
   [k: string]: HexToCssResult;
-} = {};
+} = {} as const;
 
 export interface HexToCssResult {
   /** How many times the script was called to solve the color */
@@ -115,6 +115,15 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
   }) as HexToCssResult;
 
   return results[colorValue] as HexToCssResult;
+};
+
+export const clearCache = (key?: string): void => {
+  if (key && results[key]) {
+    delete results[key];
+    return;
+  }
+
+  results = {};
 };
 
 export { hexToCSSFilter };

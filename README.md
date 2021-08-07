@@ -108,7 +108,7 @@ console.log(cssFilter);
 
 You can override the default options by passing a second parameter into `hexToCSSFilter` method. You can also use `HexToCssConfiguration` for type support on it.
 
-```js
+```ts
 import { hexToCSSFilter, HexToCssConfiguration } from 'hex-to-css-filter';
 
 const config: HexToCssConfiguration = {
@@ -151,6 +151,66 @@ It returns an object with the values:
 - `acceptanceLossPercentage`: Acceptable color percentage to be lost. Default: `5`;
 - `maxChecks`: Maximum checks that needs to be done to return the best value. Default: `10`;
 - `forceFilterRecalculation`: Boolean value that forces recalculation for CSS filter generation. Default: `false`;
+
+### Removing memory cache
+
+In some cases the memory cache is quite handy. However, it doesn't need to stored after called in some cases. If you're using it in some frontend libraries/frameworks, have that in memory can become an issue.
+
+In order to solve that, you can now use the function `clearCache` to remove the memory cache. The method can receive the stored hex color. In this case, _only the received key will be removed_. E.G.
+
+```ts
+// Creating CSS filters for `#24639C` and `#FF0000`
+// They memory cache stored is based on the received hex value
+const [firstResult, secondResult, thirdResult, forthResult] = [
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+];
+
+// ...
+// ✨ Here is the place where the magic happens in your App ✨
+// ...
+
+// Removing the memory cache only for `#24639C`
+// It means that `#FF0000` is still cached.
+// It's quite handy in scenarios of colors that are called for several times,
+// Having other ones called twice or thrice
+clearCache('#24639C');
+
+// `fifthResult` will be computed again, since there's no cache
+// `sixthResult` won't be computed because of the existent memory cache for the value
+const [fifthResult, sixthResult] = [
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+];
+```
+
+Also, it covers the scenario of removing all the cache by calling the function with no arguments. E.G.
+
+```ts
+// Creating CSS filters for `#24639C` and `#FF0000`
+// They memory cache stored is based on the received hex value
+const [firstResult, secondResult, thirdResult, forthResult] = [
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+];
+
+// ...
+// ✨ Here is the place where the magic happens in your App ✨
+// ...
+
+// Removing all cached values from memory
+clearCache();
+
+// `fifthResult` and `sixthResult` will be computed again, since there's no cache
+const [fifthResult, sixthResult] = [
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+];
+```
 
 ## Publish
 

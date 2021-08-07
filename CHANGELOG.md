@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Added
+
+- Adding `clearCache` function to removed values from memory cache. It also gives the option of clear all cached values from memory.
+
+```ts
+// Creating CSS filters for `#24639C` and `#FF0000`
+// They memory cache stored is based on the received hex value
+const [firstResult, secondResult, thirdResult, forthResult] = [
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+];
+
+// ...
+// ✨ Here is the place where the magic happens in your App ✨
+// ...
+
+// Removing the memory cache only for `#24639C`
+// It means that `#FF0000` is still cached.
+// It's quite handy in scenarios of colors that are called for several times,
+// Having other ones called twice or thrice
+clearCache('#24639C');
+
+// Or you can just remove all cached values from memory
+// by calling the function with no arguments
+clearCache();
+
+// `fifthResult` and `sixthResult` will/won't be computed again based on `clearCache` usage
+const [fifthResult, sixthResult] = [
+  hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+  hexToCSSFilter('#FF0000', { forceFilterRecalculation: false } as HexToCssConfiguration),
+];
+```
+
 ## [4.0.0][] - 2021-05-09
 
 ### Updated
@@ -188,7 +223,5 @@ To improve readability, these type definitions were renamed
 [3.1.1]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.1
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v3.1.2...HEAD
 [3.1.2]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.2
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v4.0.0...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v4.0.0...HEAD
 [4.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v4.0.0
