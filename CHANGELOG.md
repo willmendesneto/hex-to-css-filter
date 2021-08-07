@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
-- Updating NodeJS version to v14.11.0
+- Updating NodeJS version to v14.15.5
 - Upgrading dependencies and devDependencies
 
 ### Added
