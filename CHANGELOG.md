@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [5.1.0][] - 2021-08-08
+
 ### Fixedq
 
 - Fixing issue when passing a key to be removed from cache that doesn't exist. Before the fix, if the consumer was passing a non-existent key, all the cached values were removed. Now, if a non-existent key is passed through the cache won't be changed
@@ -245,3 +247,7 @@ To improve readability, these type definitions were renamed
 [4.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v4.0.0
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.0.0...HEAD
 [5.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.0.0
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.1.0...HEAD
+[5.1.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.1.0
