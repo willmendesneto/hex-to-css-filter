@@ -1,14 +1,13 @@
 import Color from './color';
 import { HexToCssConfiguration } from './hex-to-css-filter';
 
-type FilterValuesArray = [number, number, number, number, number, number];
 interface SPSAPayload {
   /** How many times the script was called to solve the color */
   called?: number;
   /** Percentage loss value for the generated filter */
   loss: number;
   /** Percentage loss per each color type organized in RGB: red, green, blue, h, s, l. */
-  values: FilterValuesArray;
+  values: [number, number, number, number, number, number];
 }
 
 export default class Solver {
@@ -76,7 +75,7 @@ export default class Solver {
     let best = { loss: Infinity };
     let counter = 0;
     while (best.loss > this.options.acceptanceLossPercentage) {
-      const initialFilterValues: FilterValuesArray = [50, 20, 3750, 50, 100, 100];
+      const initialFilterValues: SPSAPayload['values'] = [50, 20, 3750, 50, 100, 100];
       const result: SPSAPayload = this.spsa({
         A,
         a,
@@ -174,7 +173,7 @@ export default class Solver {
     A: number;
     a: number[];
     c: number;
-    values: FilterValuesArray;
+    values: SPSAPayload['values'];
     maxTriesInLoop: number;
     called?: number;
   }): SPSAPayload {
@@ -184,9 +183,9 @@ export default class Solver {
     let best = null;
     let bestLoss = Infinity;
 
-    const deltas = new Array(6) as FilterValuesArray;
-    const highArgs = new Array(6) as FilterValuesArray;
-    const lowArgs = new Array(6) as FilterValuesArray;
+    const deltas = new Array(6) as SPSAPayload['values'];
+    const highArgs = new Array(6) as SPSAPayload['values'];
+    const lowArgs = new Array(6) as SPSAPayload['values'];
 
     // Size of all CSS filters to be applied to get the correct color
     const filtersToBeAppliedSize = 6;
@@ -220,11 +219,11 @@ export default class Solver {
    * Checks how much is the loss for the filter in RGB and HSL colors
    *
    * @private
-   * @param {FilterValuesArray} filters
+   * @param {SPSAPayload['values']} filters
    * @returns {number}
    * @memberof Solver
    */
-  private loss(filters: FilterValuesArray): number {
+  private loss(filters: SPSAPayload['values']): number {
     // Argument as an Array of percentages.
     const color = this.reusedColor;
 

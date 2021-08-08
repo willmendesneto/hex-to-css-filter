@@ -99,22 +99,25 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
     throw new Error(`Color value should be in HEX format. ${error}`);
   }
 
-  const defaultHexToCssConfiguration = {
-    acceptanceLossPercentage: 5,
-    maxChecks: 30,
-    forceFilterRecalculation: false,
-  };
+  const solver = new Solver(
+    color,
+    Object.assign(
+      {},
+      // `HexToCssConfiguration` Defaults
+      {
+        acceptanceLossPercentage: 5,
+        maxChecks: 30,
+        forceFilterRecalculation: false,
+      },
+      opts,
+    ) as HexToCssConfiguration,
+  );
 
-  const HexToCssConfiguration: HexToCssConfiguration = Object.assign({}, defaultHexToCssConfiguration, opts);
-
-  const solver = new Solver(color, HexToCssConfiguration);
-  results[colorValue] = Object.assign({}, solver.solve(), {
+  return (results[colorValue] = Object.assign({}, solver.solve(), {
     hex: colorValue,
     rgb: [red, green, blue],
     cache: false,
-  }) as HexToCssResult;
-
-  return results[colorValue] as HexToCssResult;
+  }) as HexToCssResult);
 };
 
 export const clearCache = (key?: string): void => {

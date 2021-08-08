@@ -199,6 +199,7 @@ To improve readability, these type definitions were renamed
 
 ### Updated
 
+- Minor code changes to decrese bundle size to 2.2KB 🎉
 - Using `Object.assign()` to return the best match object
 - Changing the color to check: from white to black
 
@@ -232,7 +233,5 @@ To improve readability, these type definitions were renamed
 [3.1.2]: https://github.com/willmendesneto/hex-to-css-filter/tree/v3.1.2
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v4.0.0...HEAD
 [4.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v4.0.0
-
-
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.0.0...HEAD
+[unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.0.0...HEAD
 [5.0.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.0.0
