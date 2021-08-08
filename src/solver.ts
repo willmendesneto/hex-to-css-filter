@@ -1,4 +1,4 @@
-import Color from './color';
+import { Color } from './color';
 import { HexToCssConfiguration } from './hex-to-css-filter';
 
 interface SPSAPayload {
@@ -10,7 +10,7 @@ interface SPSAPayload {
   values: [number, number, number, number, number, number];
 }
 
-export default class Solver {
+class Solver {
   private target: Color;
   private targetHSL: { h: number; s: number; l: number };
   private reusedColor: Color;
@@ -272,3 +272,5 @@ export default class Solver {
     ].join(' ');
   }
 }
+
+export { Solver };

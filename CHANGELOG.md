@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Fixedq
+
+- Fixing issue when passing a key to be removed from cache that doesn't exist. Before the fix, if the consumer was passing a non-existent key, all the cached values were removed. Now, if a non-existent key is passed through the cache won't be changed
+
+### Updated
+
+- Adding JSDocs for `clearCache` method
+- Adding `.lintstagedrc` configuration file
+- Applying changes to decrese bundle size to 2.2KB 🎉
+
 ## [5.0.0][] - 2021-08-07
 
 ### Updated

@@ -14,7 +14,7 @@
     },
     {
       "path": "./dist/umd/hex-to-css-filter.js",
-      "maxSize": "5KB"
+      "maxSize": "5.2KB"
     },
     {
       "path": "./dist/umd/hex-to-css-filter.min.js",

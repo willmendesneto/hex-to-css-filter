@@ -4,7 +4,7 @@ interface HSLData {
   l: number;
 }
 
-export default class Color {
+class Color {
   r = 0;
   g = 0;
   b = 0;
@@ -218,3 +218,5 @@ export default class Color {
     return Math.min(Math.max(value, 0), 255);
   }
 }
+
+export { Color };

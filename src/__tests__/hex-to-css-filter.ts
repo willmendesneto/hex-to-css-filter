@@ -32,6 +32,24 @@ describe('hexToCSSFilter', () => {
     expect(sixthResult).not.toEqual(forthResult);
   });
 
+  it('should keep memory cache as it is if `clearCache` receives value that does NOT exist in the cache', () => {
+    const [firstResult, secondResult] = [
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+      hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),
+    ].map(({ cache: _cache, ...rest }) => rest);
+
+    expect(firstResult).toEqual(secondResult);
+
+    clearCache('#FF0000');
+
+    const [thirdResult] = [hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration)].map(
+      ({ cache: _cache, ...rest }) => rest,
+    );
+
+    expect(firstResult).toEqual(secondResult);
+    expect(firstResult).toEqual(thirdResult);
+  });
+
   it('should clear memory cache only for received argument if `clearCache` is called with arguments', () => {
     const [firstResult, secondResult, thirdResult, forthResult] = [
       hexToCSSFilter('#24639C', { forceFilterRecalculation: false } as HexToCssConfiguration),

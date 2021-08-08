@@ -1,5 +1,5 @@
-import Solver from './solver';
-import Color from './color';
+import { Solver } from './solver';
+import { Color } from './color';
 
 /**
  * Transform a CSS Color from Hexadecimal to RGB color
@@ -78,7 +78,7 @@ export interface HexToCssConfiguration {
  * @param opts HexToCssConfiguration function configuration
  *
  */
-const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): HexToCssResult => {
+export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): HexToCssResult => {
   let red;
   let green;
   let blue;
@@ -120,13 +120,16 @@ const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): H
   }) as HexToCssResult);
 };
 
+/**
+ * A function that clears cached results
+ *
+ * @param  {string} key? HEX string value passed previously `#24639C`. If not passed, it clears all cached results
+ * @returns void
+ */
 export const clearCache = (key?: string): void => {
-  if (key && results[key]) {
+  if (!key) {
+    results = {};
+  } else if (results[key]) {
     delete results[key];
-    return;
   }
-
-  results = {};
 };
-
-export { hexToCSSFilter };
