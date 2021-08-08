@@ -78,11 +78,6 @@
     "lint:fix": "prettier --no-editorconfig --write",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "prettier --no-editorconfig --write"
-    ]
-  },
   "browserslist": [
     "last 1 chrome versions",
     "last 1 edge versions",
