@@ -56,7 +56,7 @@ We use `yarn` as our package manager instead of `npm`
 After that, just navigate to your local repository and run
 
 ```bash
-$ yarn install
+$ yarn install && yarn husky:install
 ```
 
 ## Demo

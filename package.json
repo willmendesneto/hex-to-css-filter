@@ -60,7 +60,7 @@
     "node": ">=6.10.2"
   },
   "scripts": {
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "compile": "tsc",
     "clean": "rm -rf ./dist ./.jest ./coverage ./lib",
     "build": "yarn build:es2015 && yarn build:cjs && yarn build:esm && yarn build:umd",
