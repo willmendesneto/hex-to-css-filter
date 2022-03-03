@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [5.3.0][] - 2022-03-03
+
 ### Fixed
 
 - Fixing build distribution issue during install
@@ -261,3 +263,7 @@ To improve readability, these type definitions were renamed
 [5.1.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.1.0
 [unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.2.0...HEAD
 [5.2.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.2.0
+
+
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.3.0...HEAD
+[5.3.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.3.0
