@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [6.0.0][] - 2025-03-11
+
 ### Fixed
 
 - Removing semicolon at the end of filter values. So that, consumers will be able to use its value in any order. E.G:
@@ -296,5 +298,6 @@ To improve readability, these type definitions were renamed
 [5.3.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.3.0
 
 
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.4.0...HEAD
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v6.0.0...HEAD
+[6.0.0]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.4.0...v6.0.0
 [5.4.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.4.0
