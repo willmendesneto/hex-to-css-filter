@@ -268,7 +268,7 @@ class Solver {
       `saturate(${formatCssFilterValueByMultiplier(2)}%)`,
       `hue-rotate(${formatCssFilterValueByMultiplier(3, 3.6)}deg)`,
       `brightness(${formatCssFilterValueByMultiplier(4)}%)`,
-      `contrast(${formatCssFilterValueByMultiplier(5)}%);`,
+      `contrast(${formatCssFilterValueByMultiplier(5)}%)`,
     ].join(' ');
   }
 }

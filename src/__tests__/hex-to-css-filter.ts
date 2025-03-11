@@ -129,6 +129,7 @@ describe('hexToCSSFilter', () => {
     expect(filter.includes('hue-rotate')).toBe(true);
     expect(filter.includes('brightness')).toBe(true);
     expect(filter.includes('contrast')).toBe(true);
+    expect(filter.includes(';')).toBe(false);
   });
 
   describe('When it receives options', () => {
