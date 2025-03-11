@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Fixed
+
+- Removing semicolon at the end of filter values. So that, consumers will be able to use its value in any order. E.G:
+
+After changes
+
+```css
+/* ✅ Both approaches will work as expected 🎉  */
+filter: var(--hex-to-css-filter) var(--blur-filter);
+filter: var(--blur-filter) var(--hex-to-css-filter);
+```
+
+Before changes
+
+```css
+/* ❌ This order was NOT working before changes  */
+filter: var(--hex-to-css-filter) var(--blur-filter);
+/* ✅ This order was the only way of applying that  */
+filter: var(--blur-filter) var(--hex-to-css-filter);
+```
+
+
+
 ## [5.4.0][] - 2022-03-29
 
 ### Fixed
