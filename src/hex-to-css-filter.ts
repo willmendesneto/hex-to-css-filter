@@ -95,8 +95,9 @@ export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration =
     }
 
     color = new Color(Number(red), Number(green), Number(blue));
-  } catch (error) {
-    throw new Error(`Color value should be in HEX format. ${error}`);
+  } catch (e: unknown) {
+    const error = e instanceof Error ? e : new Error(String(e));
+    throw new Error(`Color value should be in HEX format. ${error.message}`);
   }
 
   const solver = new Solver(
