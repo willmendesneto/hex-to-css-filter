@@ -9,19 +9,11 @@ import { Color } from './color';
  */
 const hexToRgb = (hex: string): [number, number, number] | [] => {
   if (hex.length === 4) {
-    return [parseInt(`0x${hex[1]}${hex[1]}`), parseInt(`0x${hex[2]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[3]}`)] as [
-      number,
-      number,
-      number,
-    ];
+    return [parseInt(`0x${hex[1]}${hex[1]}`), parseInt(`0x${hex[2]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[3]}`)];
   }
 
   if (hex.length === 7) {
-    return [parseInt(`0x${hex[1]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[4]}`), parseInt(`0x${hex[5]}${hex[6]}`)] as [
-      number,
-      number,
-      number,
-    ];
+    return [parseInt(`0x${hex[1]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[4]}`), parseInt(`0x${hex[5]}${hex[6]}`)];
   }
 
   return [];
