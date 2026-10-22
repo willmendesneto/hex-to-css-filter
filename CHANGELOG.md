@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+### Changed
+
+- **BREAKING CHANGE:** Node.js 18+ is required and the published code now targets ES2018 (no more ES5 output)
+- **BREAKING CHANGE:** New `dist` structure: `dist/index.js` (ESM), `dist/index.cjs` (CommonJS), `dist/umd/hex-to-css-filter(.min).js` (UMD). Package entrypoints are now defined via `exports` field
+- Removing `tslib` from dependencies. The package has zero runtime dependencies now
+- Replacing `browser` field by `unpkg` and `jsdelivr` fields. Bundlers were picking the UMD build instead of the ES Module one
+- Updating all dev dependencies to the latest versions (TypeScript 6, Jest 30, ESLint 10 with flat config, Prettier 3, Rollup 4, Husky 9, lint-staged 17)
+- Replacing `yarn` by `npm`
+- Replacing `bundlesize` by `size-limit` and `uglify-js` by `terser`
+- Removing unused dependencies: `jsdom`, `typings`, `ts-node`, `eslint-plugin-compat`, `rollup-plugin-node-resolve`
+
 ## [6.0.0][] - 2025-03-11
 
 ### Fixed

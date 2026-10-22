@@ -1,6 +1,5 @@
 # hex-to-css-filter
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/willmendesneto/hex-to-css-filter.svg)](https://greenkeeper.io/)
 [![npm](https://img.shields.io/badge/stackblitz-online-orange.svg)](https://stackblitz.com/edit/hex-to-css-filter-playground)
 
 [![npm version](https://badge.fury.io/js/hex-to-css-filter.svg)](http://badge.fury.io/js/hex-to-css-filter) [![npm downloads](https://img.shields.io/npm/dm/hex-to-css-filter.svg)](https://npmjs.org/hex-to-css-filter)
@@ -20,42 +19,14 @@ Please check our [contributing.md](https://github.com/willmendesneto/hex-to-css-
 
 ## Setup and installation
 
-Make sure that you are using the NodeJS version is the same as `.nvmrc` file version. If you don't have this version please use a version manager such as `nvm` or `n` to manage your local nodejs versions.
-
-> Please make sure that you are using NodeJS version 6.10.2
+Make sure that you are using the NodeJS version defined in the `.nvmrc` file (Node.js 18 or newer is required). If you don't have this version please use a version manager such as `nvm` or `n` to manage your local nodejs versions.
 
 Assuming that you are using `nvm`, please run the commands inside this folder:
 
 ```bash
-$ nvm install $(cat .nvmrc); # install required nodejs version
-$ nvm use $(cat .nvmrc); # use nodejs version
-```
-
-In Windows, please install NodeJS using one of these options:
-
-Via `NVM Windows` package: Dowload via [this link](https://github.com/coreybutler/nvm-windows). After that, run the commands:
-
-```bash
-$ nvm install $(cat .nvmrc); # install required nodejs version
-$ nvm use $(cat .nvmrc); # use nodejs version
-```
-
-Via Chocolatey:
-
-```bash
-$ choco install nodejs.install -version 6.10.2
-```
-
-### Install yarn
-
-We use `yarn` as our package manager instead of `npm`
-
-[Install it following these steps](https://yarnpkg.com/lang/en/docs/install/#mac-tab)
-
-After that, just navigate to your local repository and run
-
-```bash
-$ yarn install && yarn husky:install
+$ nvm install; # install required nodejs version
+$ nvm use; # use nodejs version
+$ npm install
 ```
 
 ## Demo
@@ -65,25 +36,25 @@ Try out our [demo on Stackblitz](https://hex-to-css-filter-playground.stackblitz
 ### Run the tests
 
 ```bash
-$ yarn test # run the tests
+$ npm test
 ```
 
 ### Run the build
 
 ```bash
-$ yarn build # run the tests
+$ npm run build
 ```
 
-### Run the bundlesize check
+### Run the bundle size check
 
 ```bash
-$ yarn bundlesize # run the tests
+$ npm run build && npm run size
 ```
 
 ### Run the code lint
 
 ```bash
-$ yarn lint # run the tests
+$ npm run lint
 ```
 
 ## Usage

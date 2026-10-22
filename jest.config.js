@@ -1,14 +1,8 @@
-module.exports = {
-  globals: {
-    'ts-jest': {
-      tsConfig: './tsconfig.spec.json',
-    },
-  },
-  automock: false,
+export default {
   cacheDirectory: '<rootDir>/.jest',
   collectCoverage: true,
-  roots: ['src'],
-  collectCoverageFrom: ['**/src/*.ts', '!src/index.ts'],
+  collectCoverageFrom: ['src/*.ts', '!src/index.ts'],
+  coverageReporters: ['text', 'lcov'],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -17,8 +11,9 @@ module.exports = {
       statements: 94,
     },
   },
-  preset: 'ts-jest',
+  roots: ['src'],
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['/node_modules/', '/scripts/', '/dist/'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  transform: {
+    '^.+\\.ts$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
+  },
 };

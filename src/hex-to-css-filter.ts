@@ -71,26 +71,16 @@ export interface HexToCssConfiguration {
  *
  */
 export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): HexToCssResult => {
-  let red;
-  let green;
-  let blue;
-
   if (results[colorValue] && !opts.forceFilterRecalculation) {
     return Object.assign({}, results[colorValue], { cache: true }) as HexToCssResult;
   }
 
-  let color: Color;
-  try {
-    [red, green, blue] = hexToRgb(colorValue);
-    if (!isNumeric(red) || !isNumeric(green) || !isNumeric(blue)) {
-      throw new Error(`hextToRgb returned an invalid value for '${colorValue}'`);
-    }
-
-    color = new Color(Number(red), Number(green), Number(blue));
-  } catch (e: unknown) {
-    const error = e instanceof Error ? e : new Error(String(e));
-    throw new Error(`Color value should be in HEX format. ${error.message}`);
+  const [red, green, blue] = hexToRgb(colorValue);
+  if (!isNumeric(red) || !isNumeric(green) || !isNumeric(blue)) {
+    throw new Error(`Color value should be in HEX format. hextToRgb returned an invalid value for '${colorValue}'`);
   }
+
+  const color = new Color(Number(red), Number(green), Number(blue));
 
   const solver = new Solver(
     color,
