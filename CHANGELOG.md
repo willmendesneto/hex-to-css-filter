@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [7.0.0][] - 2026-10-22
+
 ### Fixed
 
 - Fixing infinite loop/`TypeError` when `maxChecks` or `acceptanceLossPercentage` options are passed as `undefined`. Default values are used in these cases
@@ -320,6 +322,7 @@ To improve readability, these type definitions were renamed
 [5.3.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.3.0
 
 
-[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v6.0.0...HEAD
+[Unreleased]: https://github.com/willmendesneto/hex-to-css-filter/compare/v7.0.0...HEAD
+[7.0.0]: https://github.com/willmendesneto/hex-to-css-filter/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/willmendesneto/hex-to-css-filter/compare/v5.4.0...v6.0.0
 [5.4.0]: https://github.com/willmendesneto/hex-to-css-filter/tree/v5.4.0
