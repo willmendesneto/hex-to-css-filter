@@ -60,15 +60,15 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "3.5 kB"
+      "limit": "3.65 kB"
     },
     {
       "path": "dist/index.cjs",
-      "limit": "3.5 kB"
+      "limit": "3.65 kB"
     },
     {
       "path": "dist/umd/hex-to-css-filter.min.js",
-      "limit": "1.85 kB"
+      "limit": "1.9 kB"
     }
   ],
   "devDependencies": {

@@ -119,7 +119,7 @@ It returns an object with the values:
 ### Options
 
 - `acceptanceLossPercentage`: Acceptable color percentage to be lost during wide search. Does not guarantee `loss`. Default: `5`;
-- `maxChecks`: Maximum checks that needs to be done to return the best value. Default: `10`;
+- `maxChecks`: Maximum checks that needs to be done to return the best value. Default: `30`;
 - `forceFilterRecalculation`: Boolean value that forces recalculation for CSS filter generation. Default: `false`;
 
 ### Removing memory cache

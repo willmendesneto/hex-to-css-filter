@@ -23,9 +23,7 @@ const isNumeric = (n: unknown): boolean => !isNaN(parseFloat(n as string)) && is
 
 // Memory cache for the computed results to avoid multiple
 // calculations for the same color
-let results: {
-  [k: string]: HexToCssResult;
-} = {} as const;
+const results = new Map<string, HexToCssResult>();
 
 export interface HexToCssResult {
   /** How many times the script was called to solve the color */
@@ -53,7 +51,7 @@ export interface HexToCssConfiguration {
   acceptanceLossPercentage?: number;
   /**
    * Maximum checks that needs to be done to return the best value.
-   * @default 10
+   * @default 30
    */
   maxChecks?: number;
   /**
@@ -71,8 +69,9 @@ export interface HexToCssConfiguration {
  *
  */
 export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): HexToCssResult => {
-  if (results[colorValue] && !opts.forceFilterRecalculation) {
-    return Object.assign({}, results[colorValue], { cache: true }) as HexToCssResult;
+  const cachedResult = results.get(colorValue);
+  if (cachedResult && !opts.forceFilterRecalculation) {
+    return copyResult(cachedResult, true);
   }
 
   const [red, green, blue] = hexToRgb(colorValue);
@@ -82,26 +81,31 @@ export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration =
 
   const color = new Color(Number(red), Number(green), Number(blue));
 
-  const solver = new Solver(
-    color,
-    Object.assign(
-      {},
-      // `HexToCssConfiguration` Defaults
-      {
-        acceptanceLossPercentage: 5,
-        maxChecks: 30,
-        forceFilterRecalculation: false,
-      },
-      opts,
-    ) as HexToCssConfiguration,
-  );
+  // `HexToCssConfiguration` Defaults.
+  // Using `??` so options explicitly passed as `undefined` don't override the defaults
+  const solver = new Solver(color, {
+    acceptanceLossPercentage: opts.acceptanceLossPercentage ?? 5,
+    maxChecks: opts.maxChecks ?? 30,
+  });
 
-  return (results[colorValue] = Object.assign({}, solver.solve(), {
+  const result = Object.assign({}, solver.solve(), {
     hex: colorValue,
     rgb: [red, green, blue],
     cache: false,
-  }) as HexToCssResult);
+  }) as HexToCssResult;
+  results.set(colorValue, result);
+
+  return copyResult(result, false);
 };
+
+// Returning copies of the arrays, so that consumers changing
+// the returned values won't change the cached results
+const copyResult = (result: HexToCssResult, cache: boolean): HexToCssResult =>
+  Object.assign({}, result, {
+    rgb: result.rgb.slice(0),
+    values: result.values.slice(0),
+    cache,
+  }) as HexToCssResult;
 
 /**
  * A function that clears cached results
@@ -111,8 +115,8 @@ export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration =
  */
 export const clearCache = (key?: string): void => {
   if (!key) {
-    results = {};
-  } else if (results[key]) {
-    delete results[key];
+    results.clear();
+  } else {
+    results.delete(key);
   }
 };
