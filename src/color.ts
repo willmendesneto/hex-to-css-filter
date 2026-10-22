@@ -4,6 +4,16 @@ interface HSLData {
   l: number;
 }
 
+/**
+ * Normalize the value to follow the min and max for RGB colors
+ * min: 0
+ * max: 255
+ *
+ * @param {number} value
+ * @returns {number}
+ */
+const clamp = (value: number): number => Math.min(Math.max(value, 0), 255);
+
 class Color {
   r = 0;
   g = 0;
@@ -14,18 +24,18 @@ class Color {
   }
 
   set(r: number, g: number, b: number): void {
-    this.r = this.clamp(r);
-    this.g = this.clamp(g);
-    this.b = this.clamp(b);
+    this.r = clamp(r);
+    this.g = clamp(g);
+    this.b = clamp(b);
   }
 
   /**
    * Applying cals to get CSS filter for hue-rotate
    *
-   * @param {number} [angle=0]
+   * @param {number} angle
    * @memberof Color
    */
-  hueRotate(angle = 0): void {
+  hueRotate(angle: number): void {
     angle = (angle / 180) * Math.PI;
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
@@ -44,32 +54,12 @@ class Color {
   }
 
   /**
-   * Applying cals to get CSS filter for grayscale
-   *
-   * @param {number} [value=1]
-   * @memberof Color
-   */
-  grayscale(value = 1): void {
-    this.multiply([
-      0.2126 + 0.7874 * (1 - value),
-      0.7152 - 0.7152 * (1 - value),
-      0.0722 - 0.0722 * (1 - value),
-      0.2126 - 0.2126 * (1 - value),
-      0.7152 + 0.2848 * (1 - value),
-      0.0722 - 0.0722 * (1 - value),
-      0.2126 - 0.2126 * (1 - value),
-      0.7152 - 0.7152 * (1 - value),
-      0.0722 + 0.9278 * (1 - value),
-    ]);
-  }
-
-  /**
    * Applying cals to get CSS filter for sepia
    *
-   * @param {number} [value=1]
+   * @param {number} value
    * @memberof Color
    */
-  sepia(value = 1): void {
+  sepia(value: number): void {
     this.multiply([
       0.393 + 0.607 * (1 - value),
       0.769 - 0.769 * (1 - value),
@@ -86,10 +76,10 @@ class Color {
   /**
    * Applying cals to get CSS filter for saturate
    *
-   * @param {number} [value=1]
+   * @param {number} value
    * @memberof Color
    */
-  saturate(value = 1): void {
+  saturate(value: number): void {
     this.multiply([
       0.213 + 0.787 * value,
       0.715 - 0.715 * value,
@@ -105,50 +95,37 @@ class Color {
 
   private multiply(matrix: number[]): void {
     // These values are needed. It's correct because the returned values will change
-    const newR = this.clamp(this.r * matrix[0] + this.g * matrix[1] + this.b * matrix[2]);
-    const newG = this.clamp(this.r * matrix[3] + this.g * matrix[4] + this.b * matrix[5]);
-    const newB = this.clamp(this.r * matrix[6] + this.g * matrix[7] + this.b * matrix[8]);
+    const newR = clamp(this.r * matrix[0] + this.g * matrix[1] + this.b * matrix[2]);
+    const newG = clamp(this.r * matrix[3] + this.g * matrix[4] + this.b * matrix[5]);
+    const newB = clamp(this.r * matrix[6] + this.g * matrix[7] + this.b * matrix[8]);
     this.r = newR;
     this.g = newG;
     this.b = newB;
   }
 
   /**
-   * Applying cals to get CSS filter for brightness
+   * Applying cals to get CSS filter for brightness and contrast
    *
-   * @param {number} [value=1]
+   * @param {number} slope
+   * @param {number} [intercept=0]
    * @memberof Color
    */
-  brightness(value = 1): void {
-    this.linear(value);
-  }
-
-  /**
-   * Applying cals to get CSS filter for contrast
-   *
-   * @param {number} [value=1]
-   * @memberof Color
-   */
-  contrast(value = 1): void {
-    this.linear(value, -(0.5 * value) + 0.5);
-  }
-
-  private linear(slope = 1, intercept = 0) {
-    this.r = this.clamp(this.r * slope + intercept * 255);
-    this.g = this.clamp(this.g * slope + intercept * 255);
-    this.b = this.clamp(this.b * slope + intercept * 255);
+  linear(slope: number, intercept = 0): void {
+    this.r = clamp(this.r * slope + intercept * 255);
+    this.g = clamp(this.g * slope + intercept * 255);
+    this.b = clamp(this.b * slope + intercept * 255);
   }
 
   /**
    * Applying cals to get CSS filter for invert
    *
-   * @param {number} [value=1]
+   * @param {number} value
    * @memberof Color
    */
-  invert(value = 1): void {
-    this.r = this.clamp((value + (this.r / 255) * (1 - 2 * value)) * 255);
-    this.g = this.clamp((value + (this.g / 255) * (1 - 2 * value)) * 255);
-    this.b = this.clamp((value + (this.b / 255) * (1 - 2 * value)) * 255);
+  invert(value: number): void {
+    this.r = clamp((value + (this.r / 255) * (1 - 2 * value)) * 255);
+    this.g = clamp((value + (this.g / 255) * (1 - 2 * value)) * 255);
+    this.b = clamp((value + (this.b / 255) * (1 - 2 * value)) * 255);
   }
 
   /**
@@ -199,22 +176,6 @@ class Color {
       s: saturation * 100,
       l: lightness * 100,
     };
-  }
-
-  /**
-   * Normalize the value to follow the min and max for RGB colors
-   * min: 0
-   * max: 255
-   *
-   * @private
-   * @param {number} value
-   * @returns {number}
-   * @memberof Color
-   */
-  private clamp(value: number): number {
-    // Minimum RGB Value = 0;
-    // Maximum RGB Value = 255;
-    return Math.min(Math.max(value, 0), 255);
   }
 }
 

@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Replacing `bundlesize` by `size-limit` and `uglify-js` by `terser`
 - Migrating CI from CircleCI to GitHub Actions and adding Dependabot configuration
 - Removing `.coveralls.yml`. Coverage is uploaded via `coverallsapp/github-action` using `GITHUB_TOKEN`
+- Simplifying internal code: `Solver` class replaced by a `solve()` function, removing unused `Color.grayscale()` method and duplicated default options. Minified UMD bundle reduced from 1.86 kB to 1.59 kB (brotli) with the same results
 - Removing unused dependencies: `jsdom`, `typings`, `ts-node`, `eslint-plugin-compat`, `rollup-plugin-node-resolve`
 
 ## [6.0.0][] - 2025-03-11
