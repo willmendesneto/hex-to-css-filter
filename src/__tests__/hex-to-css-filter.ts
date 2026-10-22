@@ -87,7 +87,18 @@ describe('hexToCSSFilter', () => {
   });
 
   it('loss should NOT check more than the default maximum value to check', () => {
-    expect(hexToCSSFilter('#00a4d6').called <= 10).toBe(true);
+    expect(hexToCSSFilter('#00a4d6').called <= 30).toBe(true);
+  });
+
+  it('should NOT change the cached result if the returned value is mutated', () => {
+    const firstResult = hexToCSSFilter('#FF0000');
+    firstResult.rgb[0] = 1;
+    firstResult.values[0] = -1;
+
+    const cachedResult = hexToCSSFilter('#FF0000');
+    expect(cachedResult.cache).toBe(true);
+    expect(cachedResult.rgb).toEqual([255, 0, 0]);
+    expect(cachedResult.values[0]).not.toBe(-1);
   });
 
   it('should return RGB colors as list of values', () => {
@@ -133,6 +144,12 @@ describe('hexToCSSFilter', () => {
   });
 
   describe('When it receives options', () => {
+    it('should use the default values if options are passed as `undefined`', () => {
+      const res = hexToCSSFilter('#123456', { acceptanceLossPercentage: undefined, maxChecks: undefined });
+      expect(res.called <= 30).toBe(true);
+      expect(res.filter.split(' ').length).toEqual(6);
+    });
+
     it('loss should NOT be more than the given acceptance loss percentage OR should be more AND was called at allowed maxChecks', () => {
       const res = hexToCSSFilter('#ED553C', { acceptanceLossPercentage: 1, maxChecks: 5 } as HexToCssConfiguration);
       expect(res.loss <= 1 || (res.loss > 1 && res.called === 5)).toBe(true);

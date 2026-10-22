@@ -53,7 +53,7 @@ export interface HexToCssConfiguration {
   acceptanceLossPercentage?: number;
   /**
    * Maximum checks that needs to be done to return the best value.
-   * @default 10
+   * @default 30
    */
   maxChecks?: number;
   /**
@@ -72,7 +72,7 @@ export interface HexToCssConfiguration {
  */
 export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): HexToCssResult => {
   if (results[colorValue] && !opts.forceFilterRecalculation) {
-    return Object.assign({}, results[colorValue], { cache: true }) as HexToCssResult;
+    return copyResult(results[colorValue], true);
   }
 
   const [red, green, blue] = hexToRgb(colorValue);
@@ -82,26 +82,30 @@ export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration =
 
   const color = new Color(Number(red), Number(green), Number(blue));
 
-  const solver = new Solver(
-    color,
-    Object.assign(
-      {},
-      // `HexToCssConfiguration` Defaults
-      {
-        acceptanceLossPercentage: 5,
-        maxChecks: 30,
-        forceFilterRecalculation: false,
-      },
-      opts,
-    ) as HexToCssConfiguration,
-  );
+  // `HexToCssConfiguration` Defaults.
+  // Using `??` so options explicitly passed as `undefined` don't override the defaults
+  const solver = new Solver(color, {
+    acceptanceLossPercentage: opts.acceptanceLossPercentage ?? 5,
+    maxChecks: opts.maxChecks ?? 30,
+  });
 
-  return (results[colorValue] = Object.assign({}, solver.solve(), {
+  results[colorValue] = Object.assign({}, solver.solve(), {
     hex: colorValue,
     rgb: [red, green, blue],
     cache: false,
-  }) as HexToCssResult);
+  }) as HexToCssResult;
+
+  return copyResult(results[colorValue], false);
 };
+
+// Returning copies of the arrays, so that consumers changing
+// the returned values won't change the cached results
+const copyResult = (result: HexToCssResult, cache: boolean): HexToCssResult =>
+  Object.assign({}, result, {
+    rgb: result.rgb.slice(0),
+    values: result.values.slice(0),
+    cache,
+  }) as HexToCssResult;
 
 /**
  * A function that clears cached results
