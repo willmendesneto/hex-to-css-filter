@@ -23,9 +23,7 @@ const isNumeric = (n: unknown): boolean => !isNaN(parseFloat(n as string)) && is
 
 // Memory cache for the computed results to avoid multiple
 // calculations for the same color
-let results: {
-  [k: string]: HexToCssResult;
-} = {} as const;
+const results = new Map<string, HexToCssResult>();
 
 export interface HexToCssResult {
   /** How many times the script was called to solve the color */
@@ -71,8 +69,9 @@ export interface HexToCssConfiguration {
  *
  */
 export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration = {}): HexToCssResult => {
-  if (results[colorValue] && !opts.forceFilterRecalculation) {
-    return copyResult(results[colorValue], true);
+  const cachedResult = results.get(colorValue);
+  if (cachedResult && !opts.forceFilterRecalculation) {
+    return copyResult(cachedResult, true);
   }
 
   const [red, green, blue] = hexToRgb(colorValue);
@@ -89,13 +88,14 @@ export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration =
     maxChecks: opts.maxChecks ?? 30,
   });
 
-  results[colorValue] = Object.assign({}, solver.solve(), {
+  const result = Object.assign({}, solver.solve(), {
     hex: colorValue,
     rgb: [red, green, blue],
     cache: false,
   }) as HexToCssResult;
+  results.set(colorValue, result);
 
-  return copyResult(results[colorValue], false);
+  return copyResult(result, false);
 };
 
 // Returning copies of the arrays, so that consumers changing
@@ -115,8 +115,8 @@ const copyResult = (result: HexToCssResult, cache: boolean): HexToCssResult =>
  */
 export const clearCache = (key?: string): void => {
   if (!key) {
-    results = {};
-  } else if (results[key]) {
-    delete results[key];
+    results.clear();
+  } else {
+    results.delete(key);
   }
 };

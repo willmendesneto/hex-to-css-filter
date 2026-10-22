@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Fixing infinite loop/`TypeError` when `maxChecks` or `acceptanceLossPercentage` options are passed as `undefined`. Default values are used in these cases
+- Fixing memory cache lookup for values matching `Object.prototype` properties (E.G. `toString`, `__proto__`). Now they throw the invalid HEX error as expected
 - Fixing memory cache mutation: changing `rgb` or `values` arrays from a returned result was changing the cached result
 - Fixing `maxChecks` default value in docs (`30`)
 - Fixing flaky test for default `maxChecks`

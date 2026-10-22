@@ -117,6 +117,9 @@ describe('hexToCSSFilter', () => {
     expect(() => hexToCSSFilter('invalid')).toThrow(/Color value should be in HEX format/);
     // invalid color with more than 7 characters (one of the rules to get full HEX colors #000000)
     expect(() => hexToCSSFilter('invalid-value')).toThrow(/Color value should be in HEX format/);
+    // values matching `Object.prototype` properties should NOT be considered as cached values
+    expect(() => hexToCSSFilter('toString')).toThrow(/Color value should be in HEX format/);
+    expect(() => hexToCSSFilter('__proto__')).toThrow(/Color value should be in HEX format/);
   });
 
   it('should return an object with the given values', () => {
