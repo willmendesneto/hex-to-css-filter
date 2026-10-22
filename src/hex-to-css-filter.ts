@@ -1,25 +1,20 @@
-import { Solver } from './solver';
 import { Color } from './color';
+import { solve } from './solver';
 
 /**
  * Transform a CSS Color from Hexadecimal to RGB color
  *
  * @param {string} hex hexadecimal color
- * @returns {([number, number, number] | [])} array with the RGB colors or empty array
+ * @returns {number[]} array with the RGB colors or empty array
  */
-const hexToRgb = (hex: string): [number, number, number] | [] => {
+const hexToRgb = (hex: string): number[] => {
+  // Expanding short HEX colors. E.G. `#09f` -> `#0099ff`
   if (hex.length === 4) {
-    return [parseInt(`0x${hex[1]}${hex[1]}`), parseInt(`0x${hex[2]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[3]}`)];
+    hex = `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
   }
 
-  if (hex.length === 7) {
-    return [parseInt(`0x${hex[1]}${hex[2]}`), parseInt(`0x${hex[3]}${hex[4]}`), parseInt(`0x${hex[5]}${hex[6]}`)];
-  }
-
-  return [];
+  return hex.length === 7 ? [1, 3, 5].map(i => parseInt(`0x${hex.slice(i, i + 2)}`)) : [];
 };
-
-const isNumeric = (n: unknown): boolean => !isNaN(parseFloat(n as string)) && isFinite(n as number);
 
 // Memory cache for the computed results to avoid multiple
 // calculations for the same color
@@ -61,6 +56,15 @@ export interface HexToCssConfiguration {
   forceFilterRecalculation?: boolean;
 }
 
+// Returning copies of the arrays, so that consumers changing
+// the returned values won't change the cached results
+const copyResult = (result: HexToCssResult, cache: boolean): HexToCssResult => ({
+  ...result,
+  rgb: [...result.rgb],
+  values: [...result.values],
+  cache,
+});
+
 /**
  * A function that transforms a HEX color into CSS filters
  *
@@ -74,38 +78,27 @@ export const hexToCSSFilter = (colorValue: string, opts: HexToCssConfiguration =
     return copyResult(cachedResult, true);
   }
 
-  const [red, green, blue] = hexToRgb(colorValue);
-  if (!isNumeric(red) || !isNumeric(green) || !isNumeric(blue)) {
+  const rgb = hexToRgb(colorValue);
+  if (rgb.length !== 3 || rgb.some(isNaN)) {
     throw new Error(`Color value should be in HEX format. hextToRgb returned an invalid value for '${colorValue}'`);
   }
 
-  const color = new Color(Number(red), Number(green), Number(blue));
-
-  // `HexToCssConfiguration` Defaults.
-  // Using `??` so options explicitly passed as `undefined` don't override the defaults
-  const solver = new Solver(color, {
-    acceptanceLossPercentage: opts.acceptanceLossPercentage ?? 5,
-    maxChecks: opts.maxChecks ?? 30,
-  });
-
-  const result = Object.assign({}, solver.solve(), {
+  const [red, green, blue] = rgb;
+  const result: HexToCssResult = {
+    // `HexToCssConfiguration` Defaults.
+    // Using `??` so options explicitly passed as `undefined` don't override the defaults
+    ...solve(new Color(red, green, blue), {
+      acceptanceLossPercentage: opts.acceptanceLossPercentage ?? 5,
+      maxChecks: opts.maxChecks ?? 30,
+    }),
     hex: colorValue,
     rgb: [red, green, blue],
     cache: false,
-  }) as HexToCssResult;
+  };
   results.set(colorValue, result);
 
   return copyResult(result, false);
 };
-
-// Returning copies of the arrays, so that consumers changing
-// the returned values won't change the cached results
-const copyResult = (result: HexToCssResult, cache: boolean): HexToCssResult =>
-  Object.assign({}, result, {
-    rgb: result.rgb.slice(0),
-    values: result.values.slice(0),
-    cache,
-  }) as HexToCssResult;
 
 /**
  * A function that clears cached results
