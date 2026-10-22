@@ -5,8 +5,8 @@
 [![npm version](https://badge.fury.io/js/hex-to-css-filter.svg)](http://badge.fury.io/js/hex-to-css-filter) [![npm downloads](https://img.shields.io/npm/dm/hex-to-css-filter.svg)](https://npmjs.org/hex-to-css-filter)
 [![MIT License](https://img.shields.io/badge/license-MIT%20License-blue.svg?style=flat-square)](LICENSE)
 
-[![Build Status](https://circleci.com/gh/willmendesneto/hex-to-css-filter.svg?style=shield)](https://circleci.com/gh/willmendesneto/hex-to-css-filter)
-[![Coverage Status](https://coveralls.io/repos/willmendesneto/hex-to-css-filter/badge.svg?branch=master)](https://coveralls.io/r/willmendesneto/hex-to-css-filter?branch=master)
+[![CI](https://github.com/willmendesneto/hex-to-css-filter/actions/workflows/ci.yml/badge.svg)](https://github.com/willmendesneto/hex-to-css-filter/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/willmendesneto/hex-to-css-filter/badge.svg?branch=main)](https://coveralls.io/r/willmendesneto/hex-to-css-filter?branch=main)
 
 [![NPM](https://nodei.co/npm/hex-to-css-filter.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/hex-to-css-filter)
 [![NPM](https://nodei.co/npm-dl/hex-to-css-filter.png?height=3&months=3)](https://npmjs.org/hex-to-css-filter)
