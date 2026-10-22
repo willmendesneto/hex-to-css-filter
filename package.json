@@ -13,13 +13,28 @@
   "homepage": "https://github.com/willmendesneto/hex-to-css-filter#readme",
   "sideEffects": false,
   "license": "MIT",
-  "browser": "dist/umd/hex-to-css-filter.js",
-  "jsnext:main": "dist/esm/index.js",
-  "module": "dist/esm/index.js",
-  "main": "dist/cjs/index.js",
-  "es2015": "dist/cjs/index.js",
-  "cjs": "dist/cjs/index.js",
-  "types": "dist/umd/index.d.ts",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/umd/hex-to-css-filter.min.js",
+  "jsdelivr": "dist/umd/hex-to-css-filter.min.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "hex-to-css-filter",
     "css",
@@ -27,64 +42,54 @@
     "hex",
     "color"
   ],
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.24",
-    "@types/node": "^14.0.27",
-    "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/parser": "^4.29.0",
-    "bundlesize": "^0.18.0",
-    "changelog-verify": "^1.1.0",
-    "coveralls": "^3.1.1",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-compat": "^3.11.1",
-    "eslint-plugin-prettier": "^3.1.1",
-    "husky": "^7.0.1",
-    "jest": "^27.0.6",
-    "jsdom": "^16.7.0",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2",
-    "rollup": "^2.56.0",
-    "rollup-plugin-dts": "^4.2.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "ts-jest": "^27.0.4",
-    "ts-node": "^10.1.0",
-    "typescript": "^4.3.5",
-    "typings": "^2.1.1",
-    "uglify-js": "^3.14.1",
-    "version-changelog": "^3.1.0"
-  },
   "engines": {
-    "node": ">=6.10.2"
+    "node": ">=18"
   },
   "scripts": {
-    "prepare": "husky install",
-    "compile": "tsc",
-    "clean": "rm -rf ./dist ./.jest ./coverage ./lib",
-    "build": "yarn build:es2015 && yarn build:cjs && yarn build:esm && yarn build:umd",
-    "build:umd": "rollup --config && yarn build:umd:min",
-    "build:umd:min": "uglifyjs --compress --mangle --comments -o dist/umd/hex-to-css-filter.min.js -- dist/umd/hex-to-css-filter.js && gzip dist/umd/hex-to-css-filter.min.js -c > dist/umd/hex-to-css-filter.min.js.gz",
-    "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
-    "build:esm": "tsc --module esnext --target es5 --outDir dist/esm",
-    "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
+    "prepare": "husky",
+    "clean": "rm -rf dist lib coverage .jest",
+    "build": "npm run clean && tsc -p tsconfig.build.json && rollup --config",
+    "prepublishOnly": "npm run build",
     "test": "jest",
-    "pretest:ci": "yarn lint",
-    "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
-    "check-coverage": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage",
-    "bundlesize": "bundlesize --config bundlesize.config.json",
-    "lint": "eslint '{scripts,src}/**/*.[tj]s'",
-    "lint:fix": "prettier --no-editorconfig --write",
+    "test:ci": "jest --coverage",
+    "size": "size-limit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
-  "browserslist": [
-    "last 1 chrome versions",
-    "last 1 edge versions",
-    "last 1 firefox versions",
-    "last 1 safari versions",
-    "last 1 and_chr versions",
-    "last 1 ios_saf versions"
-  ]
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "3.5 kB"
+    },
+    {
+      "path": "dist/index.cjs",
+      "limit": "3.5 kB"
+    },
+    {
+      "path": "dist/umd/hex-to-css-filter.min.js",
+      "limit": "1.85 kB"
+    }
+  ],
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-terser": "^1.0.2",
+    "@size-limit/file": "^14.2.0",
+    "@types/jest": "^30.0.0",
+    "changelog-verify": "^1.1.2",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.7",
+    "husky": "^9.1.7",
+    "jest": "^30.5.2",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "rollup": "^4.64.12",
+    "rollup-plugin-dts": "^6.5.1",
+    "size-limit": "^14.2.0",
+    "ts-jest": "^29.4.15",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.0",
+    "version-changelog": "^3.1.1"
+  }
 }
